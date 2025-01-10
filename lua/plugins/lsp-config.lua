@@ -30,13 +30,16 @@ return {
 
 			util = require("lspconfig/util")
 
-			lspconfig.lua_ls.setup({
+            local bin_path = os.getenv("USERPROFILE").."/AppData/Local/nvim-data/mason/bin/"
+
+            lspconfig.lua_ls.setup({
 				capabilities = capabilities,
+                cmd = { bin_path .. "lua-language-server.cmd" },
 			})
 			lspconfig.gopls.setup({
 				capabilities = capabilities,
 				on_attach = on_attach,
-				cmd = { "gopls" },
+                cmd = { bin_path .. "gopls.cmd" },
 				filetypes = { "go", "gomod", "gowork", "gotmpl" },
 				root_dir = util.root_pattern("go.work", "go.mod", ".git"),
 				settings = {
@@ -53,6 +56,7 @@ return {
 			})
 			lspconfig.csharp_ls.setup({
 				capabilities = capabilities,
+                cmd = { bin_path .. "csharp-ls.cmd" },
 			})
 
 			vim.keymap.set("n", "<leader>i", vim.lsp.buf.hover, {})
