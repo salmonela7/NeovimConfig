@@ -3,7 +3,9 @@ return {
 		"williamboman/mason.nvim",
 		lazy = false,
 		config = function()
-			require("mason").setup()
+			require("mason").setup({
+                PATH =  "prepend"
+            })
 		end,
 	},
 	{
