@@ -1,17 +1,17 @@
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
-	local lazyrepo = "https://github.com/folke/lazy.nvim.git"
-	local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
-	if vim.v.shell_error ~= 0 then
-		vim.api.nvim_echo({
-			{ "Failed to clone lazy.nvim:\n", "ErrorMsg" },
-			{ out, "WarningMsg" },
-			{ "\nPress any key to exit..." },
-		}, true, {})
-		vim.fn.getchar()
-		os.exit(1)
-	end
+    local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+    local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
+    if vim.v.shell_error ~= 0 then
+        vim.api.nvim_echo({
+            { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
+            { out,                            "WarningMsg" },
+            { "\nPress any key to exit..." },
+        }, true, {})
+        vim.fn.getchar()
+        os.exit(1)
+    end
 end
 vim.opt.rtp:prepend(lazypath)
 
@@ -57,35 +57,49 @@ vim.keymap.set("n", "<A-h>", "<C-o>")
 
 vim.keymap.set("n", "<F2>", vim.diagnostic.goto_next)
 
-vim.api.nvim_set_keymap(
-	"n",
-	"<C-o>",
-	":lua require'telescope'.extensions.project.project{}<CR>",
-	{ noremap = true, silent = true }
-)
+vim.keymap.set("n", "<C-]>", "<cmd>resize +2<cr>")
+vim.keymap.set("n", "<C-[>", "<cmd>resize -2<cr>")
+vim.keymap.set("n", "<C-'>", "<cmd>vertical resize +2<cr>")
+vim.keymap.set("n", "<C-;>", "<cmd>vertical resize -2<cr>")
+
+vim.keymap.set('n', '<leader>gg', function()
+    if next(require('diffview.lib').views) == nil then
+        vim.cmd('DiffviewOpen')
+    else
+        vim.cmd('DiffviewClose')
+    end
+end)
+
+vim.keymap.set("n", "<leader>gh", function()
+    if next(require('diffview.lib').views) == nil then
+        vim.cmd('DiffviewFileHistory')
+    else
+        vim.cmd('DiffviewClose')
+    end
+end)
 
 vim.api.nvim_create_autocmd({ 'BufLeave', 'FocusLost', 'VimLeavePre' }, {
-	pattern = '*',
-	group = vim.api.nvim_create_augroup("autosave", {}),
-	callback = function(event)
-		if event.buftype or event.file == '' then
-			return
-		end
-		vim.api.nvim_buf_call(event.buf, function()
-			vim.schedule(function()
-				vim.cmd 'silent! write'
-			end)
-		end)
-	end,
+    pattern = '*',
+    group = vim.api.nvim_create_augroup("autosave", {}),
+    callback = function(event)
+        if event.buftype or event.file == '' then
+            return
+        end
+        vim.api.nvim_buf_call(event.buf, function()
+            vim.schedule(function()
+                vim.cmd 'silent! write'
+            end)
+        end)
+    end,
 })
 
 -- Setup lazy.nvim
 require("lazy").setup({
-	spec = {
-		-- import your plugins
-		{ import = "plugins" },
-	},
-	change_detection = { enabled = false },
-	-- automatically check for plugin updates
-	checker = { enabled = true },
+    spec = {
+        -- import your plugins
+        { import = "plugins" },
+    },
+    change_detection = { enabled = false },
+    -- automatically check for plugin updates
+    checker = { enabled = true },
 })
