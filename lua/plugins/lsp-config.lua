@@ -4,8 +4,8 @@ return {
 		lazy = false,
 		config = function()
 			require("mason").setup({
-                PATH =  "prepend"
-            })
+				PATH = "prepend",
+			})
 		end,
 	},
 	{
@@ -30,16 +30,16 @@ return {
 
 			util = require("lspconfig/util")
 
-            local bin_path = os.getenv("USERPROFILE").."/AppData/Local/nvim-data/mason/bin/"
+			local bin_path = os.getenv("USERPROFILE") .. "/AppData/Local/nvim-data/mason/bin/"
 
-            lspconfig.lua_ls.setup({
+			lspconfig.lua_ls.setup({
 				capabilities = capabilities,
-                cmd = { bin_path .. "lua-language-server.cmd" },
+				cmd = { bin_path .. "lua-language-server.cmd" },
 			})
 			lspconfig.gopls.setup({
 				capabilities = capabilities,
 				on_attach = on_attach,
-                cmd = { bin_path .. "gopls.cmd" },
+				cmd = { bin_path .. "gopls.cmd" },
 				filetypes = { "go", "gomod", "gowork", "gotmpl" },
 				root_dir = util.root_pattern("go.work", "go.mod", ".git"),
 				settings = {
@@ -56,7 +56,7 @@ return {
 			})
 			lspconfig.csharp_ls.setup({
 				capabilities = capabilities,
-                cmd = { bin_path .. "csharp-ls.cmd" },
+				cmd = { bin_path .. "csharp-ls.cmd" },
 			})
 
 			vim.keymap.set("n", "<leader>i", vim.lsp.buf.hover, {})
