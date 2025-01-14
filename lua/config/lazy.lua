@@ -78,19 +78,16 @@ vim.keymap.set("n", "<leader>gh", function()
 	end
 end)
 
-vim.api.nvim_create_autocmd({ "BufLeave", "FocusLost", "VimLeavePre" }, {
-	pattern = "*",
-	group = vim.api.nvim_create_augroup("autosave", {}),
-	callback = function(event)
-		if event.buftype or event.file == "" then
-			return
-		end
-		vim.api.nvim_buf_call(event.buf, function()
-			vim.schedule(function()
-				vim.cmd("silent! write")
-			end)
-		end)
-	end,
+vim.api.nvim_create_autocmd({ "FocusLost" }, {
+	command = "silent! wa",
+})
+
+vim.api.nvim_create_autocmd({ "BufLeave" }, {
+	command = "silent! wa",
+})
+
+vim.api.nvim_create_autocmd({ "VimLeavePre" }, {
+	command = "silent! wa",
 })
 
 require("lazy").setup({

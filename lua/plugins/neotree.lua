@@ -32,8 +32,10 @@ return {
 					["P"] = { "toggle_preview", config = { use_float = true, use_image_nvim = true } },
 					-- Read `# Preview Mode` for more information
 					["l"] = "focus_preview",
-					["<C-j>"] = "open_split",
-					["<C-l>"] = "open_vsplit",
+					-- ["<C-j>"] = "open_split",
+					-- ["<C-l>"] = "open_vsplit",
+					["<leader>S"] = "open_split",
+					["<leader>s"] = "open_vsplit",
 					-- ["S"] = "split_with_window_picker",
 					-- ["s"] = "vsplit_with_window_picker",
 					["t"] = "open_tabnew",
