@@ -1,17 +1,17 @@
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
-	local lazyrepo = "https://github.com/folke/lazy.nvim.git"
-	local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
-	if vim.v.shell_error ~= 0 then
-		vim.api.nvim_echo({
-			{ "Failed to clone lazy.nvim:\n", "ErrorMsg" },
-			{ out, "WarningMsg" },
-			{ "\nPress any key to exit..." },
-		}, true, {})
-		vim.fn.getchar()
-		os.exit(1)
-	end
+    local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+    local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
+    if vim.v.shell_error ~= 0 then
+        vim.api.nvim_echo({
+            { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
+            { out,                            "WarningMsg" },
+            { "\nPress any key to exit..." },
+        }, true, {})
+        vim.fn.getchar()
+        os.exit(1)
+    end
 end
 vim.opt.rtp:prepend(lazypath)
 
@@ -63,43 +63,43 @@ vim.keymap.set("n", "<A-'>", "<cmd>vertical resize +2<cr>")
 vim.keymap.set("n", "<A-;>", "<cmd>vertical resize -2<cr>")
 
 vim.keymap.set("n", "<leader>gg", function()
-	if next(require("diffview.lib").views) == nil then
-		vim.cmd("DiffviewOpen")
-	else
-		vim.cmd("DiffviewClose")
-	end
+    if next(require("diffview.lib").views) == nil then
+        vim.cmd("DiffviewOpen")
+    else
+        vim.cmd("DiffviewClose")
+    end
 end)
 
 vim.keymap.set("n", "<leader>gh", function()
-	if next(require("diffview.lib").views) == nil then
-		vim.cmd("DiffviewFileHistory")
-	else
-		vim.cmd("DiffviewClose")
-	end
+    if next(require("diffview.lib").views) == nil then
+        vim.cmd("DiffviewFileHistory")
+    else
+        vim.cmd("DiffviewClose")
+    end
 end)
 
 vim.api.nvim_create_autocmd({ "FocusLost" }, {
-	command = "silent! wa",
+    command = "silent! wa",
 })
 
 vim.api.nvim_create_autocmd({ "BufLeave" }, {
-	command = "silent! wa",
+    command = "silent! wa",
 })
 
 vim.api.nvim_create_autocmd({ "VimLeavePre" }, {
-	command = "silent! wa",
+    command = "silent! wa",
 })
 
 require("lazy").setup({
-	spec = {
-		-- import your plugins
-		{ import = "plugins" },
-		{ import = "themes" },
-	},
-	change_detection = { enabled = false },
+    spec = {
+        -- import your plugins
+        { import = "plugins" },
+        { import = "themes" },
+    },
+    change_detection = { enabled = false },
 
-	-- automatically check for plugin updates
-	checker = { enabled = false },
+    -- automatically check for plugin updates
+    checker = { enabled = false },
 })
 
 -- Setup lazy.nvim
