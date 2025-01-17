@@ -4,17 +4,6 @@ return {
         config = function()
             local null_ls = require("null-ls")
             local augroup = vim.api.nvim_create_augroup("Lspformatting", {})
-            -- local range_formatting = function()
-            -- 	local start_row, _ = unpack(vim.api.nvim_buf_get_mark(0, "<"))
-            -- 	local end_row, _ = unpack(vim.api.nvim_buf_get_mark(0, ">"))
-            -- 	vim.lsp.buf.format({
-            -- 		range = {
-            -- 			["start"] = { start_row, 0 },
-            -- 			["end"] = { end_row, 0 },
-            -- 		},
-            -- 		async = true,
-            -- 	})
-            -- end
 
             null_ls.setup({
                 sources = {

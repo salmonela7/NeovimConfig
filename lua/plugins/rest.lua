@@ -4,7 +4,6 @@ return {
 		config = function()
 			vim.keymap.set("n", "<leader>hs", ":e " .. os.getenv("USERPROFILE") .. "/scratchpad.http<CR>")
 			vim.keymap.set("n", "<leader>hr", "<cmd>Rest run<cr>")
-			-- vim.keymap.set("n", "<leader>ht", "<cmd>lua require('kulala').toggle_view()<cr>")
 		end,
 		dependencies = {
 			{
