@@ -13,7 +13,42 @@ return {
 					detached = false,
 				},
 			})
-			require("dapui").setup({})
+			require("dapui").setup({
+				layouts = {
+					{
+						elements = {
+							{
+								id = "repl",
+								size = 0.3,
+							},
+							{
+								id = "scopes",
+								size = 0.7,
+							},
+						},
+						position = "bottom",
+						size = 15,
+					},
+					{
+						elements = {
+							{
+								id = "stacks",
+								size = 0.6,
+							},
+							{
+								id = "breakpoints",
+								size = 0.2,
+							},
+							{
+								id = "console",
+								size = 0.2,
+							},
+						},
+						position = "left",
+						size = 25,
+					},
+				},
+			})
 			-- require("dap.ext.vscode").load_launchjs(nil, {})
 
 			dap.listeners.before.attach.dapui_config = function()
@@ -69,6 +104,10 @@ return {
 			vim.keymap.set("n", "<leader>ds", function()
 				local widgets = require("dap.ui.widgets")
 				widgets.centered_float(widgets.scopes)
+			end)
+
+			vim.keymap.set("n", "<leader>db", function()
+				require("dapui").toggle()
 			end)
 
 			vim.fn.sign_define("DapBreakpoint", {
