@@ -2,9 +2,31 @@ return {
 	{
 		"nvim-telescope/telescope.nvim",
 		tag = "0.1.5",
-		dependencies = { "nvim-lua/plenary.nvim" },
+		dependencies = {
+
+			{
+				"nvim-lua/plenary.nvim",
+			},
+			{
+				"nvim-telescope/telescope-live-grep-args.nvim",
+				version = "^1.0.0",
+			},
+		},
 		config = function()
 			require("telescope").setup({
+				pickers = {
+					find_files = {
+						find_command = {
+							"fd",
+							"--type",
+							"f",
+							"--no-ignore-vcs",
+							"--color=never",
+							"--hidden",
+							"--follow",
+						},
+					},
+				},
 				extensions = {
 					["ui-select"] = {
 						require("telescope.themes").get_dropdown({}),
@@ -14,10 +36,34 @@ return {
 			local builtin = require("telescope.builtin")
 			vim.keymap.set("n", "<C-p>", builtin.find_files, {})
 			vim.keymap.set("v", "<C-p>", builtin.find_files, {})
-			vim.keymap.set("n", "<leader>fg", builtin.live_grep, {})
-			vim.keymap.set("v", "<leader>fg", builtin.live_grep, {})
+
+			function vim.getVisualSelection()
+				vim.cmd('noau normal! "vy"')
+				local text = vim.fn.getreg("v")
+				vim.fn.setreg("v", {})
+
+				text = string.gsub(text, "\n", "")
+				if #text > 0 then
+					return text
+				else
+					return ""
+				end
+			end
+
+			vim.keymap.set("v", "<leader>fg", function()
+				local text = vim.getVisualSelection()
+				require("telescope").extensions.live_grep_args.live_grep_args({ default_text = text })
+			end, {})
+
+			vim.keymap.set(
+				"n",
+				"<leader>fg",
+				require('telescope').extensions.live_grep_args.live_grep_args(),
+				{}
+			)
 			vim.keymap.set("n", "<leader><leader>", builtin.oldfiles, {})
 			require("telescope").load_extension("ui-select")
+			require("telescope").load_extension("live_grep_args")
 		end,
 	},
 	{
@@ -36,6 +82,16 @@ return {
 							["<C-j>"] = actions.move_selection_next,
 							["<leader>s"] = actions.file_vsplit,
 							["<leader>S"] = actions.file_split,
+							["<esc>"] = actions.close,
+							["<C-p>"] = actions.close,
+						},
+						n = {
+							["<C-k>"] = actions.move_selection_previous,
+							["<C-j>"] = actions.move_selection_next,
+							["<leader>s"] = actions.file_vsplit,
+							["<leader>S"] = actions.file_split,
+							["<esc>"] = actions.close,
+							["<C-p>"] = actions.close,
 						},
 					},
 				},
