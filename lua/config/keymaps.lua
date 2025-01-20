@@ -21,6 +21,8 @@ vim.keymap.set("n", "<A-[>", "<cmd>resize -2<cr>")
 vim.keymap.set("n", "<A-'>", "<cmd>vertical resize +2<cr>")
 vim.keymap.set("n", "<A-;>", "<cmd>vertical resize -2<cr>")
 
+vim.keymap.set("n", "<A-/>", ":noh <cr>")
+
 vim.keymap.set("n", "<leader>gg", function()
 	if next(require("diffview.lib").views) == nil then
 		vim.cmd("DiffviewOpen")
