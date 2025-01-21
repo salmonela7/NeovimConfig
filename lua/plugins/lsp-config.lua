@@ -77,6 +77,15 @@ return {
             vim.keymap.set("n", "<leader>gi", vim.lsp.buf.implementation, {})
             vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, {})
             vim.keymap.set("n", "<leader>r", vim.lsp.buf.rename, {})
+
+            vim.keymap.set({ "n", "v", "i" }, "<C-LeftMouse>", function()
+                local keymap_with_termcodes_replaced = vim.api.nvim_replace_termcodes("<LeftMouse>", true, true, true)
+                vim.api.nvim_feedkeys(keymap_with_termcodes_replaced, "a", true)
+                vim.schedule(function()
+                    vim.lsp.buf.definition()
+                    vim.lsp.buf.implementation()
+                end)
+            end, {})
         end,
     },
 }

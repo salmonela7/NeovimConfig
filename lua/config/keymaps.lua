@@ -11,8 +11,10 @@ vim.keymap.set("n", "<c-l>", ":wincmd l<CR>")
 
 vim.keymap.set("n", "<A-k>", ":BufferLineCycleNext<CR>")
 vim.keymap.set("n", "<A-j>", ":BufferLineCyclePrev<CR>")
-vim.keymap.set("n", "<A-l>", "<C-i>")
-vim.keymap.set("n", "<A-h>", "<C-o>")
+vim.keymap.set({ "n", "v", "i" }, "<A-ScrollWheelUp>", "<C-i>")
+vim.keymap.set({ "n", "v", "i" }, "<A-ScrollWheelDown>", "<C-o>")
+vim.keymap.set({ "n", "v", "i" }, "<A-l>", "<C-i>")
+vim.keymap.set({ "n", "v", "i" }, "<A-h>", "<C-o>")
 
 vim.keymap.set("n", "<F2>", vim.diagnostic.goto_next)
 
@@ -24,17 +26,17 @@ vim.keymap.set("n", "<A-;>", "<cmd>vertical resize -2<cr>")
 vim.keymap.set("n", "<A-/>", ":noh <cr>")
 
 vim.keymap.set("n", "<leader>gg", function()
-	if next(require("diffview.lib").views) == nil then
-		vim.cmd("DiffviewOpen")
-	else
-		vim.cmd("DiffviewClose")
-	end
+    if next(require("diffview.lib").views) == nil then
+        vim.cmd("DiffviewOpen")
+    else
+        vim.cmd("DiffviewClose")
+    end
 end)
 
 vim.keymap.set("n", "<leader>gh", function()
-	if next(require("diffview.lib").views) == nil then
-		vim.cmd("DiffviewFileHistory")
-	else
-		vim.cmd("DiffviewClose")
-	end
+    if next(require("diffview.lib").views) == nil then
+        vim.cmd("DiffviewFileHistory")
+    else
+        vim.cmd("DiffviewClose")
+    end
 end)
