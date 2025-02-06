@@ -27,18 +27,23 @@ vim.keymap.set("n", "<A-;>", "<cmd>vertical resize -2<cr>")
 
 vim.keymap.set("n", "<A-/>", ":noh <cr>")
 
+vim.keymap.set("n", "<C-u>", "<C-u>zz")
+vim.keymap.set("n", "<C-d>", "<C-d>zz")
+vim.keymap.set("n", "n", "nzzzv")
+vim.keymap.set("n", "N", "Nzzzv")
+
 vim.keymap.set("n", "<leader>gg", function()
-    if next(require("diffview.lib").views) == nil then
-        vim.cmd("DiffviewOpen")
-    else
-        vim.cmd("DiffviewClose")
-    end
+	if next(require("diffview.lib").views) == nil then
+		vim.cmd("DiffviewOpen")
+	else
+		vim.cmd("DiffviewClose")
+	end
 end)
 
 vim.keymap.set("n", "<leader>gh", function()
-    if next(require("diffview.lib").views) == nil then
-        vim.cmd("DiffviewFileHistory")
-    else
-        vim.cmd("DiffviewClose")
-    end
+	if next(require("diffview.lib").views) == nil then
+		vim.cmd("DiffviewFileHistory")
+	else
+		vim.cmd("DiffviewClose")
+	end
 end)
