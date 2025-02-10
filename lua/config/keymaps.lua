@@ -15,8 +15,8 @@ vim.keymap.set({ "n", "v", "i" }, "<A-k>", ":tabn<CR>")
 vim.keymap.set({ "n", "v", "i" }, "<A-j>", ":tabp<CR>")
 vim.keymap.set({ "n", "v", "i" }, "<A-ScrollWheelUp>", "<C-i>")
 vim.keymap.set({ "n", "v", "i" }, "<A-ScrollWheelDown>", "<C-o>")
-vim.keymap.set({ "n", "v", "i" }, "<A-l>", "<C-i>")
-vim.keymap.set({ "n", "v", "i" }, "<A-h>", "<C-o>")
+vim.keymap.set({ "n", "v", "i" }, "<A-l>", "<C-i>zz")
+vim.keymap.set({ "n", "v", "i" }, "<A-h>", "<C-o>zz")
 
 vim.keymap.set("n", "<F2>", vim.diagnostic.goto_next)
 
