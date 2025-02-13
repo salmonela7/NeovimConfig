@@ -4,3 +4,4 @@
 4. center on "textDocument/definition", "textDocument/implementation", "textDocument/references"
 5. config cleanup - some plugins contain redundant configuration with default values. Remove that.
 6. remove unused plugins
+7. .NET configuration

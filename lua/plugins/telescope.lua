@@ -69,15 +69,10 @@ return {
                 require("telescope").extensions.live_grep_args.live_grep_args({ default_text = text })
             end, {})
 
-            vim.keymap.set(
-                "n",
-                "<leader>ff",
-                function()
-                    require('telescope').extensions.live_grep_args.live_grep_args()
-                end,
-                {}
-            )
-
+            vim.keymap.set("n", "<leader>ff", function()
+                require("telescope").extensions.live_grep_args.live_grep_args()
+            end, {})
+            vim.keymap.set("n", "<leader>vh", builtin.help_tags, {})
             vim.keymap.set("n", "<leader><leader>", builtin.oldfiles, {})
             require("telescope").load_extension("ui-select")
             require("telescope").load_extension("live_grep_args")

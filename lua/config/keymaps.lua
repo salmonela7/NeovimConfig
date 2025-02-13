@@ -9,6 +9,22 @@ vim.keymap.set("n", "<c-j>", ":wincmd j<CR>")
 vim.keymap.set("n", "<c-h>", ":wincmd h<CR>")
 vim.keymap.set("n", "<c-l>", ":wincmd l<CR>")
 
+vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
+vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
+
+vim.keymap.set("n", "J", "mzJ`z")
+
+vim.keymap.set("x", "<leader>p", [["_dP]])
+
+vim.keymap.set("n", "Q", "<nop>")
+
+vim.keymap.set("n", "<leader>cn", "<cmd>cnext<CR>zz")
+vim.keymap.set("n", "<leader>cp", "<cmd>cprev<CR>zz")
+vim.keymap.set("n", "<leader>ln", "<cmd>lnext<CR>zz")
+vim.keymap.set("n", "<leader>lp", "<cmd>lprev<CR>zz")
+
+vim.keymap.set("n", "<leader>rp", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+
 vim.keymap.set({ "n", "v" }, "<leader>tn", ":tabnew<CR>")
 vim.keymap.set({ "n", "v" }, "<leader>tq", ":tabclose<CR>")
 vim.keymap.set({ "n", "v", "i" }, "<A-k>", ":tabn<CR>")
