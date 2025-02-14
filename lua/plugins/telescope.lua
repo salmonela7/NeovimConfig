@@ -14,19 +14,6 @@ return {
 		},
 		config = function()
 			require("telescope").setup({
-				pickers = {
-					find_files = {
-						find_command = {
-							"fd",
-							"--type",
-							"f",
-							"--no-ignore-vcs",
-							"--color=never",
-							"--hidden",
-							"--follow",
-						},
-					},
-				},
 				extensions = {
 					["ui-select"] = {
 						require("telescope.themes").get_dropdown({}),
@@ -34,8 +21,18 @@ return {
 				},
 			})
 			local builtin = require("telescope.builtin")
-			vim.keymap.set("n", "<C-p>", builtin.find_files, {})
-			vim.keymap.set("v", "<C-p>", builtin.find_files, {})
+			vim.keymap.set(
+				"n",
+				"<C-p>",
+				"<cmd>lua require'telescope.builtin'.find_files({ find_command = {'rg', '--files', '--hidden', '-g', '!.git', '--no-ignore-vcs' }})<cr>",
+				{}
+			)
+			vim.keymap.set(
+				"v",
+				"<C-p>",
+				"<cmd>lua require'telescope.builtin'.find_files({ find_command = {'rg', '--files', '--hidden', '-g', '!.git', '--no-ignore-vcs' }})<cr>",
+				{}
+			)
 
 			function vim.getVisualSelection()
 				vim.cmd('noau normal! "vy"')
@@ -49,20 +46,6 @@ return {
 					return ""
 				end
 			end
-
-			-- vim.keymap.set("v", "<leader>fg", function()
-			--     local text = vim.getVisualSelection()
-			--     require("telescope").extensions.live_grep_args.live_grep_args({ default_text = text })
-			-- end, {})
-
-			-- vim.keymap.set(
-			--     "n",
-			--     "<leader>fg",
-			--     function()
-			--         require('telescope').extensions.live_grep_args.live_grep_args()
-			--     end,
-			--     {}
-			-- )
 
 			local telescope_ignore_patterns = {
 				"%_test.go",
