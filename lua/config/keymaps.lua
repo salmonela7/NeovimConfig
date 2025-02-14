@@ -49,17 +49,42 @@ vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
 vim.keymap.set("n", "<leader>gg", function()
-	if next(require("diffview.lib").views) == nil then
-		vim.cmd("DiffviewOpen")
-	else
-		vim.cmd("DiffviewClose")
-	end
+    if next(require("diffview.lib").views) == nil then
+        vim.cmd("DiffviewOpen")
+    else
+        vim.cmd("DiffviewClose")
+    end
 end)
 
 vim.keymap.set("n", "<leader>gh", function()
-	if next(require("diffview.lib").views) == nil then
-		vim.cmd("DiffviewFileHistory")
-	else
-		vim.cmd("DiffviewClose")
-	end
+    if next(require("diffview.lib").views) == nil then
+        vim.cmd("DiffviewFileHistory")
+    else
+        vim.cmd("DiffviewClose")
+    end
+end)
+
+local job_id = 0
+vim.keymap.set("n", "<leader>teo", function()
+    vim.cmd.vnew()
+    vim.cmd.term()
+    vim.cmd.wincmd("J")
+    vim.api.nvim_win_set_height(0, 15)
+
+    job_id = vim.bo.channel
+end)
+
+vim.keymap.set("n", "<leader>tef", "<cmd>Floaterminal<cr>")
+
+local current_command = ""
+vim.keymap.set("n", "<leader>tes", function()
+    current_command = vim.fn.input("Command: ")
+end)
+
+vim.keymap.set("n", "<leader>ter", function()
+    if current_command == "" then
+        current_command = vim.fn.input("Command: ")
+    end
+
+    vim.fn.chansend(job_id, { current_command .. "\r\n" })
 end)
