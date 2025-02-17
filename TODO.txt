@@ -1,8 +1,6 @@
-1. completion on nvim-dap
-2. performance evaluation, optimisation
-3. neotest - debug last test
-4. center on "textDocument/definition", "textDocument/implementation", "textDocument/references"
-5. config cleanup - some plugins contain redundant configuration with default values. Remove that.
-6. remove unused plugins
-7. .NET configuration
-8. native lsp codelens
+1. performance evaluation, optimisation
+2. config cleanup - some plugins contain redundant configuration with default values. Remove that.
+3. remove unused plugins
+4. .NET configuration
+5. native lsp codelens
+6. Launch configurations? (mostly beneficial for dap)
