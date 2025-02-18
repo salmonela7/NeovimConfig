@@ -4,3 +4,4 @@
 4. .NET configuration
 5. native lsp codelens
 6. Launch configurations? (mostly beneficial for dap)
+7. Save file before running tests
