@@ -47,11 +47,14 @@ return {
 					enabled = true,
 				},
 			})
+
 			vim.keymap.set("n", "<leader>tf", function()
+				vim.cmd("silent! wa")
 				neotest.run.run(vim.fn.expand("%"))
 			end)
 
 			vim.keymap.set("n", "<leader>tl", function()
+				vim.cmd("silent! wa")
 				neotest.run.run_last()
 			end)
 
@@ -64,18 +67,22 @@ return {
 			end)
 
 			vim.keymap.set("n", "<leader>tt", function()
+				vim.cmd("silent! wa")
 				neotest.run.run()
 			end)
 
 			vim.keymap.set("n", "<leader>dt", function()
+				vim.cmd("silent! wa")
 				neotest.run.run({ strategy = "dap" })
 			end)
 
 			vim.keymap.set("n", "<leader>dl", function()
+				vim.cmd("silent! wa")
 				neotest.run.run_last({ strategy = "dap" })
 			end)
 
 			vim.keymap.set("n", "<leader>at", function()
+				vim.cmd("silent! wa")
 				neotest.run.run(vim.fn.getcwd())
 			end)
 
