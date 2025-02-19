@@ -1,7 +1,4 @@
-1. performance evaluation, optimisation
-2. config cleanup - some plugins contain redundant configuration with default values. Remove that.
-3. remove unused plugins
-4. .NET configuration
-5. native lsp codelens
-6. Launch configurations? (mostly beneficial for dap)
-7. Save file before running tests
+1. remove unused plugins
+2. .NET configuration
+3. native lsp codelens
+4. Launch configurations? (mostly beneficial for dap)
