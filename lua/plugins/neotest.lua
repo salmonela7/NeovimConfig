@@ -88,7 +88,7 @@ return {
 
 			vim.keymap.set("n", "<leader>at", function()
 				vim.cmd("silent! wa")
-				neotest.run.run(vim.uv.cwd())
+				vim.cmd("Floatexecute gotestsum")
 			end)
 
 			vim.keymap.set("n", "<leader>ts", function()

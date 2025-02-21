@@ -14,6 +14,9 @@ vim.opt.rnu = true
 vim.opt.scrolloff = 10
 vim.opt.incsearch = true
 vim.opt.shell = "powershell /nologo"
+vim.opt.shellcmdflag = "-command"
+vim.opt.shellquote = ""
+vim.opt.shellxquote = ""
 
 vim.cmd("colorscheme gruvbox-material")
 vim.cmd('set shada="NONE"')
