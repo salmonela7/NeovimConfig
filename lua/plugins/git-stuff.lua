@@ -1,12 +1,7 @@
 return {
-    {
-        "tpope/vim-fugitive",
-    },
-    {
-        "sindrets/diffview.nvim",
-        config = function()
-        end
-    },
+	{
+		"tpope/vim-fugitive",
+	},
 	{
 		"lewis6991/gitsigns.nvim",
 		config = function()

@@ -1,18 +1,33 @@
 vim.keymap.set("t", "kj", "<c-\\><c-n>")
 
-local terminalState = {
-	floating = {
-		buf = -1,
-		win = -1,
+local states = {
+	["main"] = {
+		floating = {
+			buf = -1,
+			win = -1,
+		},
+	},
+	["commandExState"] = {
+		floating = {
+			buf = -1,
+			win = -1,
+		},
 	},
 }
 
-local commandExTerminalState = {
-	floating = {
-		buf = -1,
-		win = -1,
-	},
-}
+local function mysplit(inputstr, sep)
+	if sep == nil then
+		sep = "%s"
+	end
+
+	local t = {}
+
+	for str in string.gmatch(inputstr, "([^" .. sep .. "]+)") do
+		table.insert(t, str)
+	end
+
+	return t
+end
 
 local function create_floating_window(opts)
 	opts = opts or {}
@@ -49,32 +64,57 @@ local function create_floating_window(opts)
 end
 
 local function resume_or_create_terminal()
-	terminalState.floating = create_floating_window({ buf = terminalState.floating.buf })
-	if vim.bo[terminalState.floating.buf].buftype ~= "terminal" then
+	states["main"].floating = create_floating_window({ buf = states["main"].floating.buf })
+	if vim.bo[states["main"].floating.buf].buftype ~= "terminal" then
 		vim.cmd.terminal()
 	end
 end
 
-local function create_new_terminal(args)
-	commandExTerminalState.floating = create_floating_window({})
-	if vim.bo[commandExTerminalState.floating.buf].buftype ~= "terminal" then
-		vim.cmd("terminal " .. args["args"])
+local function resume_or_create_terminal_and_execute(opts, stateName, command)
+	states[stateName].floating = create_floating_window({ buf = states[stateName].floating.buf })
+	if vim.bo[states[stateName].floating.buf].buftype ~= "terminal" then
+		vim.cmd("terminal " .. command)
+	end
+end
+
+local function execute_in_new_terminal(opts)
+	states["commandExState"].floating = create_floating_window({})
+	if vim.bo[states["commandExState"].floating.buf].buftype ~= "terminal" then
+		vim.cmd("terminal " .. opts["args"])
 	end
 end
 
 local toggle_terminal = function()
-	if not vim.api.nvim_win_is_valid(terminalState.floating.win) then
+	if not vim.api.nvim_win_is_valid(states["main"].floating.win) then
 		resume_or_create_terminal()
 	else
-		vim.api.nvim_win_hide(terminalState.floating.win)
+		vim.api.nvim_win_hide(states["main"].floating.win)
 	end
 end
 
 local execute_in_terminal = function(opts)
-	if not vim.api.nvim_win_is_valid(commandExTerminalState.floating.win) then
-		create_new_terminal(opts)
+	if not vim.api.nvim_win_is_valid(states["commandExState"].floating.win) then
+		execute_in_new_terminal(opts)
 	else
-		vim.api.nvim_win_hide(commandExTerminalState.floating.win)
+		vim.api.nvim_win_hide(states["commandExState"].floating.win)
+	end
+end
+
+local execute_in_terminal_save_state = function(opts)
+	local argsTable = mysplit(opts.args)
+	local stateName = argsTable[2]
+	if states[stateName] == nil then
+		states[stateName] = {
+			floating = {
+				buf = -1,
+				win = -1,
+			},
+		}
+	end
+	if not vim.api.nvim_win_is_valid(states[stateName].floating.win) then
+		resume_or_create_terminal_and_execute(opts, stateName, argsTable[1])
+	else
+		vim.api.nvim_win_hide(states[stateName].floating.win)
 	end
 end
 
@@ -85,4 +125,9 @@ vim.api.nvim_create_user_command(
 	"Floatexecute",
 	execute_in_terminal,
 	{ desc = "Executes a command in floating terminal", nargs = "*" }
+)
+vim.api.nvim_create_user_command(
+	"Floatexecutestate",
+	execute_in_terminal_save_state,
+	{ desc = "Executes a command in floating terminal and saves state", nargs = "*" }
 )

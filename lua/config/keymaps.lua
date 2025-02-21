@@ -49,19 +49,8 @@ vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
 vim.keymap.set("n", "<leader>gg", function()
-	if next(require("diffview.lib").views) == nil then
-		vim.cmd("DiffviewOpen")
-	else
-		vim.cmd("DiffviewClose")
-	end
-end)
-
-vim.keymap.set("n", "<leader>gh", function()
-	if next(require("diffview.lib").views) == nil then
-		vim.cmd("DiffviewFileHistory")
-	else
-		vim.cmd("DiffviewClose")
-	end
+	vim.cmd("silent! wa")
+	vim.cmd("Floatexecutestate lazygit sourcecontrol")
 end)
 
 local job_id = 0
