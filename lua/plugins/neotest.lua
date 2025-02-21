@@ -99,7 +99,6 @@ return {
 				neotest.jump.prev({ status = "failed" })
 			end)
 
-			-- //test
 			vim.keymap.set("n", "]t", function()
 				neotest.jump.next({ status = "failed" })
 			end)
