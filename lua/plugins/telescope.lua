@@ -14,6 +14,10 @@ return {
                 "nvim-telescope/telescope-live-grep-args.nvim",
                 version = "^1.0.0",
             },
+            {
+                "gbrlsnchs/telescope-lsp-handlers.nvim",
+                config = function() end,
+            },
         },
         config = function()
             local actions = require("telescope.actions")
@@ -90,17 +94,18 @@ return {
 
             vim.keymap.set("v", "<leader>ff", function()
                 local text = getVisualSelection()
-                require("telescope").extensions.live_grep_args.live_grep_args({ default_text = text })
+                telescope.extensions.live_grep_args.live_grep_args({ default_text = text })
             end, {})
             vim.keymap.set("n", "<leader>ff", function()
-                require("telescope").extensions.live_grep_args.live_grep_args()
+                telescope.extensions.live_grep_args.live_grep_args()
             end, {})
             vim.keymap.set("n", "<leader>vh", builtin.help_tags, {})
             vim.keymap.set("n", "<leader><leader>", builtin.oldfiles, {})
             vim.keymap.set("n", "<leader>fs", builtin.lsp_dynamic_workspace_symbols, {})
 
-            require("telescope").load_extension("ui-select")
-            require("telescope").load_extension("live_grep_args")
+            telescope.load_extension("ui-select")
+            telescope.load_extension("live_grep_args")
+            telescope.load_extension("lsp_handlers")
         end,
     },
 }
