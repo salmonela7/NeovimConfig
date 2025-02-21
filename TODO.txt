@@ -2,3 +2,4 @@
 2. .NET configuration
 3. native lsp codelens
 4. Launch configurations? (mostly beneficial for dap)
+5. display more filepath in telescope
