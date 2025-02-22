@@ -1,5 +1,9 @@
 1. remove unused plugins
 2. .NET configuration
+    * debugging
+    * lsp-config
+    * neotest
+    * null-ls
 3. native lsp codelens
 4. Launch configurations? (mostly beneficial for dap)
 5. display more filepath in telescope

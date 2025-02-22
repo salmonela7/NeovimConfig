@@ -12,6 +12,7 @@ return {
 					"uga-rosa/utf8.nvim",
 				},
 			},
+			"Issafalcon/neotest-dotnet",
 		},
 		config = function()
 			local neotest_ns = vim.api.nvim_create_namespace("neotest")
@@ -36,6 +37,9 @@ return {
 						sanitize_output = true,
 						go_test_args = {},
 						runner = "gotestsum",
+					}),
+					require("neotest-dotnet")({
+						discovery_root = "project",
 					}),
 				},
 				status = { virtual_text = true },

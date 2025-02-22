@@ -8,6 +8,9 @@ return {
 			"MunifTanjim/nui.nvim",
 		},
 		opts = {
+			filesystem = {
+				follow_current_file = { enabled = true },
+			},
 			window = {
 				mappings = {
 					["<leader>S"] = "open_split",

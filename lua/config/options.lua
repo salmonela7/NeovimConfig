@@ -19,4 +19,10 @@ vim.opt.shellquote = ""
 vim.opt.shellxquote = ""
 
 vim.cmd("colorscheme gruvbox-material")
+
+vim.cmd([[highlight DiagnosticVirtualTextError guifg=#ea6962]])
+vim.cmd([[highlight DiagnosticVirtualTextWarn guifg=#d8a657]])
+vim.cmd([[highlight DiagnosticVirtualTextInfo guifg=#7daea3]])
+vim.cmd([[highlight DiagnosticVirtualTextHint guifg=#a9b665]])
+
 vim.cmd('set shada="NONE"')
