@@ -50,11 +50,6 @@ return {
 				},
 			})
 
-			local dotnet = require("dotnet")
-			local debug_dll = nil
-
-			-- require("dap.ext.vscode").load_launchjs(nil, {})
-
 			dap.listeners.before.attach.dapui_config = function()
 				dapui.open()
 			end
@@ -120,6 +115,9 @@ return {
 				args = { "--interpreter=vscode" },
 			}
 
+			local dotnet = require("easy-dotnet")
+			local debug_dll = nil
+
 			local function ensure_dll()
 				if debug_dll ~= nil then
 					return debug_dll
@@ -129,7 +127,7 @@ return {
 				return dll
 			end
 
-			local spinner = require("spinner").new()
+			local spinner = require("easy-dotnet.ui-modules.spinner").new()
 			local function rebuild_project(co, path)
 				spinner:start_spinner("Building")
 				vim.fn.jobstart(string.format("dotnet build %s", path), {
