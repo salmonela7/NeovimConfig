@@ -29,12 +29,26 @@ return {
             end
 
             local util = require("lspconfig/util")
+            local osresolve = require("config.utils")
 
-            local bin_path = os.getenv("USERPROFILE") .. "/AppData/Local/nvim-data/mason/bin/"
+            local bin_path = ""
+            if osresolve.IS_LINUX then
+                bin_path = os.getenv("HOME") .. "/.local/share/nvim/mason/bin/"
+            else
+                bin_path = os.getenv("USERPROFILE") .. "/AppData/Local/nvim-data/mason/bin/"
+            end
+
+            local function prepareCmds(name)
+                if osresolve.IS_WINDOWS then
+                    return name .. ".cmd"
+                else
+                    return name
+                end
+            end
 
             lspconfig.lua_ls.setup({
                 capabilities = capabilities,
-                cmd = { bin_path .. "lua-language-server.cmd" },
+                cmd = { bin_path .. prepareCmds("lua-language-server") },
                 settings = {
                     Lua = {
                         diagnostics = {
@@ -46,7 +60,7 @@ return {
             lspconfig.gopls.setup({
                 capabilities = capabilities,
                 on_attach = on_attach,
-                cmd = { bin_path .. "gopls.cmd" },
+                cmd = { bin_path .. prepareCmds("gopls") },
                 filetypes = { "go", "gomod", "gowork", "gotmpl" },
                 root_dir = util.root_pattern("go.work", "go.mod", ".git"),
                 settings = {
@@ -63,11 +77,11 @@ return {
             })
             lspconfig.csharp_ls.setup({
                 capabilities = capabilities,
-                cmd = { bin_path .. "csharp-ls.cmd" },
+                cmd = { bin_path .. prepareCmds("csharp-ls") },
             })
             lspconfig.jsonls.setup({
                 capabilities = capabilities,
-                cmd = { bin_path .. "vscode-json-language-server.cmd" },
+                cmd = { bin_path .. prepareCmds("vscode-json-language-server") },
             })
         end,
     },

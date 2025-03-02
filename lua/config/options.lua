@@ -1,3 +1,4 @@
+local utils = require("config.utils")
 vim.cmd("set expandtab")
 vim.cmd("set tabstop=4")
 vim.cmd("set softtabstop=4")
@@ -13,10 +14,13 @@ vim.opt.nu = true
 vim.opt.rnu = true
 vim.opt.scrolloff = 10
 vim.opt.incsearch = true
-vim.opt.shell = "powershell /nologo"
-vim.opt.shellcmdflag = "-command"
-vim.opt.shellquote = ""
-vim.opt.shellxquote = ""
+
+-- if utils.IS_WINDOWS then
+--     vim.opt.shell = "powershell /nologo"
+--     vim.opt.shellcmdflag = "-command"
+--     vim.opt.shellquote = ""
+--     vim.opt.shellxquote = ""
+-- end
 
 vim.cmd("colorscheme gruvbox-material")
 
