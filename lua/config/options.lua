@@ -15,12 +15,12 @@ vim.opt.rnu = true
 vim.opt.scrolloff = 10
 vim.opt.incsearch = true
 
--- if utils.IS_WINDOWS then
---     vim.opt.shell = "powershell /nologo"
---     vim.opt.shellcmdflag = "-command"
---     vim.opt.shellquote = ""
---     vim.opt.shellxquote = ""
--- end
+if utils.IS_WINDOWS then
+    vim.opt.shell = "powershell /nologo"
+    vim.opt.shellcmdflag = "-command"
+    vim.opt.shellquote = ""
+    vim.opt.shellxquote = ""
+end
 
 vim.cmd("colorscheme gruvbox-material")
 
