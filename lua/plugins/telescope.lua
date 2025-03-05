@@ -43,8 +43,7 @@ return {
 
 			telescope.setup({
 				defaults = {
-					layout_strategy = "vertical",
-					layout_config = { height = 0.95, preview_height = 0.6, prompt_position = "top", mirror = true },
+					layout_config = { width = 0.95, preview_width = 0.5 },
 					mappings = {
 						i = {
 							["<C-k>"] = actions.move_selection_previous,
@@ -68,7 +67,7 @@ return {
 				},
 				pickers = {
 					lsp_references = {
-						fname_width = 100,
+						fname_width = 80,
 						include_declaration = false,
 						initial_mode = "normal",
 						on_complete = {
@@ -86,7 +85,7 @@ return {
 						},
 					},
 					lsp_implementations = {
-						fname_width = 100,
+						fname_width = 80,
 						include_declaration = false,
 						initial_mode = "normal",
 						on_complete = {
