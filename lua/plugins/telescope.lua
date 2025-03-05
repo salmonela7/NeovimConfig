@@ -43,6 +43,8 @@ return {
 
 			telescope.setup({
 				defaults = {
+					layout_strategy = "vertical",
+					layout_config = { height = 0.95, preview_height = 0.6, prompt_position = "top", mirror = true },
 					mappings = {
 						i = {
 							["<C-k>"] = actions.move_selection_previous,
@@ -66,7 +68,7 @@ return {
 				},
 				pickers = {
 					lsp_references = {
-						show_line = false,
+						fname_width = 100,
 						include_declaration = false,
 						initial_mode = "normal",
 						on_complete = {
@@ -74,12 +76,17 @@ return {
 								picker:clear_completion_callbacks()
 								if picker.manager.linked_states.size == 1 then
 									require("telescope.actions").select_default(picker.prompt_bufnr)
+								else
+									-- enter insert mode (the only workaround I found)
+									local keymap_with_termcodes_replaced =
+										vim.api.nvim_replace_termcodes("i", true, true, true)
+									vim.api.nvim_feedkeys(keymap_with_termcodes_replaced, "a", true)
 								end
 							end,
 						},
 					},
 					lsp_implementations = {
-						show_line = false,
+						fname_width = 100,
 						include_declaration = false,
 						initial_mode = "normal",
 						on_complete = {
@@ -87,6 +94,11 @@ return {
 								picker:clear_completion_callbacks()
 								if picker.manager.linked_states.size == 1 then
 									require("telescope.actions").select_default(picker.prompt_bufnr)
+								else
+									-- enter insert mode (the only workaround I found)
+									local keymap_with_termcodes_replaced =
+										vim.api.nvim_replace_termcodes("i", true, true, true)
+									vim.api.nvim_feedkeys(keymap_with_termcodes_replaced, "a", true)
 								end
 							end,
 						},
