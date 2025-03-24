@@ -118,18 +118,8 @@ return {
                 })
             end, { noremap = true, desc = "Toggle telescope ignore patterns" })
 
-            vim.keymap.set(
-                "n",
-                "<C-p>",
-                "<cmd>lua require'telescope.builtin'.find_files({ find_command = {'rg', '--files', '--hidden', '-g', '!.git', '--no-ignore-vcs' }})<cr>",
-                {}
-            )
-            vim.keymap.set(
-                "v",
-                "<C-p>",
-                "<cmd>lua require'telescope.builtin'.find_files({ find_command = {'rg', '--files', '--hidden', '-g', '!.git', '--no-ignore-vcs' }})<cr>",
-                {}
-            )
+            vim.keymap.set("n", "<C-p>", builtin.find_files, {})
+            vim.keymap.set("v", "<C-p>", builtin.find_files, {})
 
             vim.keymap.set("v", "<leader>ff", function()
                 local text = getVisualSelection()

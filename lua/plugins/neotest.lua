@@ -92,7 +92,7 @@ return {
 
 			vim.keymap.set("n", "<leader>at", function()
 				vim.cmd("silent! wa")
-				vim.cmd("Floatexecute gotestsum")
+				vim.cmd("Floatexecute go test -p 1 ./...")
 			end)
 
 			vim.keymap.set("n", "<leader>ts", function()
