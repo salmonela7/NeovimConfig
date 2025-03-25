@@ -10,6 +10,7 @@ return {
 					"html",
 					"http",
 					"c_sharp",
+					"rust",
 				},
 				indent = { enable = true },
 
