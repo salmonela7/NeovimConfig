@@ -8,6 +8,7 @@ return {
         },
         config = function()
             local dap, dapui = require("dap"), require("dapui")
+            local spinner = require("easy-dotnet.ui-modules.spinner").new()
             require("dap-go").setup({
                 delve = {
                     detached = false,
@@ -56,11 +57,19 @@ return {
             dap.listeners.before.launch.dapui_config = function()
                 dapui.open()
             end
+            dap.listeners.after.launch.dapui_config = function()
+                spinner:stop_spinner("Running")
+            end
+            dap.listeners.before.initialize.dapui_config = function()
+                spinner:start_spinner("Building")
+            end
             dap.listeners.before.event_terminated.dapui_config = function()
                 dapui.close()
+                spinner:stop_spinner("Terminated")
             end
             dap.listeners.before.event_exited.dapui_config = function()
                 dapui.close()
+                spinner:stop_spinner("Exited")
             end
 
             vim.keymap.set("n", "<F5>", function()
@@ -127,7 +136,6 @@ return {
                 return dll
             end
 
-            local spinner = require("easy-dotnet.ui-modules.spinner").new()
             local function rebuild_project(co, path)
                 spinner:start_spinner("Building")
                 vim.fn.jobstart(string.format("dotnet build %s", path), {
@@ -166,19 +174,8 @@ return {
                     end,
                 },
             }
-            -- require("easy-dotnet").register_net_dap()
 
-            -- dap.configurations.go = {
-            -- 	{
-            -- 		type = "go",
-            -- 		name = "Debug (loan-service)",
-            -- 		request = "launch",
-            -- 		showLog = false,
-            -- 		program = os.getenv("USERPROFILE")
-            -- 			.. "/Documents/Projects/mfsu-sunday-service-loan/cmd/sunday-service-loan-server/main.go",
-            -- 		dlvToolPath = vim.fn.exepath("dlv"),
-            -- 	},
-            -- }
+            dap.configurations.go = {}
         end,
     },
     {
