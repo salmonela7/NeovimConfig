@@ -5,15 +5,19 @@ return {
 		config = function()
 			require("mason").setup({
 				PATH = "prepend",
+				ensure_installed = { "csharpier", "netcoredbg" },
 			})
 		end,
+	},
+	{
+		"Hoffs/omnisharp-extended-lsp.nvim",
 	},
 	{
 		"williamboman/mason-lspconfig.nvim",
 		lazy = false,
 		config = function()
 			require("mason-lspconfig").setup({
-				ensure_installed = { "lua_ls", "csharp_ls", "gopls", "jsonls" },
+				ensure_installed = { "lua_ls", "csharp_ls", "gopls", "jsonls", "omnisharp" },
 			})
 		end,
 	},
@@ -75,10 +79,23 @@ return {
 					},
 				},
 			})
-			lspconfig.csharp_ls.setup({
+			lspconfig.omnisharp.setup({
+				handlers = {
+					["textDocument/definition"] = require("omnisharp_extended").definition_handler,
+					["textDocument/typeDefinition"] = require("omnisharp_extended").type_definition_handler,
+					["textDocument/references"] = require("omnisharp_extended").references_handler,
+					["textDocument/implementation"] = require("omnisharp_extended").implementation_handler,
+				},
+				enable_roslyn_analyzers = true,
+				organize_imports_on_format = true,
+				enable_import_completion = true,
 				capabilities = capabilities,
-				cmd = { bin_path .. prepareCmds("csharp-ls") },
+				cmd = { bin_path .. prepareCmds("omnisharp") },
 			})
+			-- lspconfig.csharp_ls.setup({
+			-- 	capabilities = capabilities,
+			-- 	cmd = { bin_path .. prepareCmds("csharp-ls") },
+			-- })
 			lspconfig.jsonls.setup({
 				capabilities = capabilities,
 				cmd = { bin_path .. prepareCmds("vscode-json-language-server") },

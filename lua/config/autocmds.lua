@@ -113,13 +113,13 @@ autocmd("LspAttach", {
 		vim.keymap.set("n", "<leader>i", vim.lsp.buf.hover, {})
 		vim.keymap.set("n", "<leader>di", vim.diagnostic.open_float, {})
 
-		-- vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, {})
-		vim.keymap.set("n", "<leader>gd", function()
-			local util = require("vim.lsp.util")
-			local params = util.make_position_params()
+		vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, {})
+		-- vim.keymap.set("n", "<leader>gd", function()
+		-- 	local util = require("vim.lsp.util")
+		-- 	local params = util.make_position_params()
 
-			vim.lsp.buf_request(0, "textDocument/definition", params, goToDefinitionAndCenterHandler)
-		end, {})
+		-- 	vim.lsp.buf_request(0, "textDocument/definition", params, goToDefinitionAndCenterHandler)
+		-- end, {})
 
 		vim.keymap.set("n", "<leader>gu", function()
 			local util = require("vim.lsp.util")

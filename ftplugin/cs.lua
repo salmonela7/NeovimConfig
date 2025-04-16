@@ -7,3 +7,4 @@ vim.keymap.set("n", "<F4>", function()
 	vim.cmd("silent! wa")
 	vim.cmd("Floatexecute dotnet build")
 end)
+
