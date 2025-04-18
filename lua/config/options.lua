@@ -12,7 +12,8 @@ vim.opt.smartcase = true
 -- vim.o.statuscolumn = "%s %l %r"
 vim.opt.nu = true
 vim.opt.rnu = true
-vim.opt.scrolloff = 10
+-- vim.opt.scrolloff = 10
+vim.opt.scrolloff = 999
 vim.opt.incsearch = true
 
 if utils.IS_WINDOWS then
