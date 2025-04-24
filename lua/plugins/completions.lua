@@ -4,6 +4,7 @@ return {
 		dependencies = {
 			"hrsh7th/cmp-nvim-lsp",
 			"hrsh7th/cmp-nvim-lua",
+			"rcarriga/cmp-dap",
 			{
 				"L3MON4D3/LuaSnip",
 				dependencies = {
@@ -51,6 +52,14 @@ return {
 				}, {
 					{ name = "buffer" },
 				}),
+				enabled = function()
+					return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt" or require("cmp_dap").is_dap_buffer()
+				end,
+			})
+			cmp.setup.filetype({ "dap-repl", "dapui_watches", "dapui_hover" }, {
+				sources = {
+					{ name = "dap" },
+				},
 			})
 		end,
 	},

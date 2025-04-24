@@ -10,9 +10,6 @@ return {
 		end,
 	},
 	{
-		"Hoffs/omnisharp-extended-lsp.nvim",
-	},
-	{
 		"williamboman/mason-lspconfig.nvim",
 		lazy = false,
 		config = function()
@@ -20,6 +17,9 @@ return {
 				ensure_installed = { "lua_ls", "csharp_ls", "gopls", "jsonls", "omnisharp" },
 			})
 		end,
+	},
+	{
+		"Decodetalkers/csharpls-extended-lsp.nvim",
 	},
 	{
 		"neovim/nvim-lspconfig",
@@ -79,23 +79,14 @@ return {
 					},
 				},
 			})
-			lspconfig.omnisharp.setup({
-				handlers = {
-					["textDocument/definition"] = require("omnisharp_extended").definition_handler,
-					["textDocument/typeDefinition"] = require("omnisharp_extended").type_definition_handler,
-					["textDocument/references"] = require("omnisharp_extended").references_handler,
-					["textDocument/implementation"] = require("omnisharp_extended").implementation_handler,
-				},
-				enable_roslyn_analyzers = true,
-				organize_imports_on_format = true,
-				enable_import_completion = true,
+			lspconfig.csharp_ls.setup({
 				capabilities = capabilities,
-				cmd = { bin_path .. prepareCmds("omnisharp") },
+				handlers = {
+					["textDocument/definition"] = require("csharpls_extended").handler,
+					["textDocument/typeDefinition"] = require("csharpls_extended").handler,
+				},
+				cmd = { bin_path .. prepareCmds("csharp-ls") },
 			})
-			-- lspconfig.csharp_ls.setup({
-			-- 	capabilities = capabilities,
-			-- 	cmd = { bin_path .. prepareCmds("csharp-ls") },
-			-- })
 			lspconfig.jsonls.setup({
 				capabilities = capabilities,
 				cmd = { bin_path .. prepareCmds("vscode-json-language-server") },

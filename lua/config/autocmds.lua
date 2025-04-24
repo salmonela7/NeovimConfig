@@ -121,7 +121,7 @@ autocmd("LspAttach", {
 		-- 	vim.lsp.buf_request(0, "textDocument/definition", params, goToDefinitionAndCenterHandler)
 		-- end, {})
 
-		vim.keymap.set("n", "<leader>gu", vim.lsp.buf.references, {})
+		vim.keymap.set("n", "<leader>gu", "<cmd>lua vim.lsp.buf.references({ includeDeclaration = false })<CR>", {})
 		-- vim.keymap.set("n", "<leader>gu", function()
 		-- 	local util = require("vim.lsp.util")
 		-- 	local params = util.make_position_params()
