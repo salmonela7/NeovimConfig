@@ -23,7 +23,7 @@ if utils.IS_WINDOWS then
 	vim.opt.shellxquote = ""
 end
 
-vim.cmd("colorscheme gruvbox-material")
+vim.cmd("colorscheme moonfly")
 
 vim.cmd([[highlight DiagnosticVirtualTextError guifg=#ea6962]])
 vim.cmd([[highlight DiagnosticVirtualTextWarn guifg=#d8a657]])
