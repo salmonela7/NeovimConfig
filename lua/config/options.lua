@@ -12,15 +12,15 @@ vim.opt.smartcase = true
 -- vim.o.statuscolumn = "%s %l %r"
 vim.opt.nu = true
 vim.opt.rnu = true
--- vim.opt.scrolloff = 10
-vim.opt.scrolloff = 999
+vim.opt.scrolloff = 10
+-- vim.opt.scrolloff = 999
 vim.opt.incsearch = true
 
 if utils.IS_WINDOWS then
-	vim.opt.shell = "powershell /nologo"
-	vim.opt.shellcmdflag = "-command"
-	vim.opt.shellquote = ""
-	vim.opt.shellxquote = ""
+    vim.opt.shell = "powershell /nologo"
+    vim.opt.shellcmdflag = "-command"
+    vim.opt.shellquote = ""
+    vim.opt.shellxquote = ""
 end
 
 vim.cmd("colorscheme moonfly")
@@ -29,5 +29,8 @@ vim.cmd([[highlight DiagnosticVirtualTextError guifg=#ea6962]])
 vim.cmd([[highlight DiagnosticVirtualTextWarn guifg=#d8a657]])
 vim.cmd([[highlight DiagnosticVirtualTextInfo guifg=#7daea3]])
 vim.cmd([[highlight DiagnosticVirtualTextHint guifg=#a9b665]])
+
+-- vim.diagnostic.config({ virtual_text = false, virtual_lines = { current_line = false } })
+vim.diagnostic.config({ virtual_text = true })
 
 vim.cmd('set shada="NONE"')

@@ -39,6 +39,7 @@ return {
 
 			local telescope_ignore_patterns = {
 				"%_test.go",
+				"%_Should.cs",
 			}
 
 			telescope.setup({

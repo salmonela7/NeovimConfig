@@ -40,6 +40,9 @@ return {
 					}),
 					require("neotest-dotnet")({
 						discovery_root = "solution",
+                        dap = {
+                            adapter_name = "coreclr",
+                        },
 					}),
 				},
 				status = { virtual_text = true },

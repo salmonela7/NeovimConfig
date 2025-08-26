@@ -49,6 +49,8 @@ vim.keymap.set("n", "{", "{zz")
 vim.keymap.set("n", "}", "}zz")
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
+vim.keymap.set("n", "G", "Gzz")
+vim.keymap.set("n", "<leader>fjs", ":%!jq '.'<CR>")
 
 vim.keymap.set("n", "<leader>gg", function()
 	vim.cmd("silent! wa")
