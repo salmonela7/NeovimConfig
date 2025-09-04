@@ -1,27 +1,68 @@
 return {
-	{
-		"nvim-neo-tree/neo-tree.nvim",
-		branch = "v3.x",
-		dependencies = {
-			"nvim-lua/plenary.nvim",
-			"nvim-tree/nvim-web-devicons",
-			"MunifTanjim/nui.nvim",
-		},
-		opts = {
-			filesystem = {
-				follow_current_file = {
-					enabled = true,
-				},
-				filtered_items = {
-					visible = true,
-				},
-			},
-			window = {
-				mappings = {
-					["<leader>S"] = "open_split",
-					["<leader>s"] = "open_vsplit",
-				},
-			},
-		},
-	},
+    {
+        "nvim-neo-tree/neo-tree.nvim",
+        branch = "v3.x",
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            "nvim-tree/nvim-web-devicons",
+            "MunifTanjim/nui.nvim",
+        },
+        opts = {
+            filesystem = {
+                follow_current_file = {
+                    enabled = true,
+                },
+                filtered_items = {
+                    visible = true,
+                },
+            },
+            window = {
+                mappings = {
+                    ["<leader>S"] = "open_split",
+                    ["<leader>s"] = "open_vsplit",
+                },
+                auto_expand_width = true,
+            },
+            default_component_configs = {
+                git_status = {
+                    symbols = {
+                        added = "✚",
+                        deleted = "✖",
+                        modified = "",
+                        renamed = "󰁕",
+                        -- Status type
+                        -- untracked = "",
+                        untracked = "",
+                        -- ignored = "",
+                        ignored = "",
+                        -- unstaged = "󰄱",
+                        unstaged = "",
+                        -- staged = "",
+                        staged = "",
+                        conflict = "",
+                    },
+                    align = "right",
+                },
+                file_size = {
+                    enabled = false,
+                    required_width = 64, -- min width of window required to show this column
+                },
+                type = {
+                    enabled = false,
+                    required_width = 110, -- min width of window required to show this column
+                },
+                last_modified = {
+                    enabled = false,
+                    required_width = 88, -- min width of window required to show this column
+                },
+                created = {
+                    enabled = false,
+                    required_width = 120, -- min width of window required to show this column
+                },
+                symlink_target = {
+                    enabled = false,
+                },
+            },
+        },
+    },
 }

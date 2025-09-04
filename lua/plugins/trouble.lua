@@ -11,7 +11,7 @@ return {
 	        end)
 
 	        vim.keymap.set("n", "]x", function()
-	            require("trouble").previous({ skip_groups = true, jump = true })
+	            require("trouble").prev({ skip_groups = true, jump = true })
 	        end)
 	    end,
 	},

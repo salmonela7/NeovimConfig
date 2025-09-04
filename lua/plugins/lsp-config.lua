@@ -119,7 +119,7 @@ return {
             })
             lspconfig.jsonls.setup({
                 capabilities = capabilities,
-                cmd = { bin_path .. prepareCmds("vscode-json-language-server") },
+                -- cmd = { bin_path .. prepareCmds("vscode-json-language-server") },
             })
             lspconfig.rust_analyzer.setup({
                 capabilities = capabilities,
