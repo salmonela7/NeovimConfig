@@ -15,6 +15,7 @@ vim.opt.rnu = true
 vim.opt.scrolloff = 10
 -- vim.opt.scrolloff = 999
 vim.opt.incsearch = true
+vim.opt.splitright = true
 
 if utils.IS_WINDOWS then
     vim.opt.shell = "powershell /nologo"

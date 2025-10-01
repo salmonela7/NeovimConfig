@@ -32,7 +32,8 @@ return {
                 discovery = {
                     enabled = false,
                 },
-                output_panel = { open = "vsplit" },
+                output_panel = { enabled = false, open = "vsplit" },
+                output = { enabled = false, open_on_run = "short" },
                 adapters = {
                     require("neotest-golang")({
                         sanitize_output = true,
@@ -52,13 +53,12 @@ return {
                     }),
                 },
                 status = { virtual_text = true },
-                output = { open_on_run = true },
-                quickfix = {
-                    open = function()
-                        vim.cmd("Trouble quickfix")
-                    end,
-                    enabled = true,
-                },
+                -- quickfix = {
+                --     open = function()
+                --         vim.cmd("Trouble quickfix")
+                --     end,
+                --     enabled = true,
+                -- },
             })
 
             vim.keymap.set("n", "<leader>tf", function()
