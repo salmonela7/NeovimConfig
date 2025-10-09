@@ -52,10 +52,10 @@ vim.keymap.set("n", "N", "Nzzzv")
 vim.keymap.set("n", "G", "Gzz")
 vim.keymap.set("n", "<leader>fjs", ":%!jq '.'<CR>")
 
-vim.keymap.set("n", "<leader>gg", function()
-	vim.cmd("silent! wa")
-	vim.cmd("Floatexecutestate lazygit sourcecontrol")
-end)
+-- vim.keymap.set("n", "<leader>gg", function()
+-- 	vim.cmd("silent! wa")
+-- 	vim.cmd("Floatexecutestate lazygit sourcecontrol")
+-- end)
 
 local job_id = 0
 vim.keymap.set("n", "<leader>teo", function()
