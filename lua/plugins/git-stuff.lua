@@ -3,7 +3,7 @@ return {
 		"tpope/vim-fugitive",
 		config = function()
 			local fugitive_win = nil
-			local FOCUS_DELAY_MS = 10
+			local FOCUS_DELAY_MS = 50
 
 			-- Helper: Check if buffer has git filetype
 			local function is_git_buffer(buf)
