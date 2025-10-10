@@ -106,19 +106,18 @@ local function goToImplementationsAndCenterHandler(err, result, ctx, config)
     return res, error
 end
 
-vim.api.nvim_create_autocmd('LspAttach', {
+vim.api.nvim_create_autocmd("LspAttach", {
     callback = function(args)
-      local client = vim.lsp.get_client_by_id(args.data.client_id)
-      if client.server_capabilities.codeLensProvider then
-        vim.lsp.codelens.refresh()
-        vim.api.nvim_create_autocmd({'BufEnter', 'CursorHold', 'InsertLeave'}, {
-          buffer = args.buf,
-          callback = vim.lsp.codelens.refresh,
-        })
-      end
+        local client = vim.lsp.get_client_by_id(args.data.client_id)
+        if client.server_capabilities.codeLensProvider then
+            vim.lsp.codelens.refresh()
+            vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
+                buffer = args.buf,
+                callback = vim.lsp.codelens.refresh,
+            })
+        end
     end,
-  })
-
+})
 
 autocmd("LspAttach", {
     group = SalmonelaGroup,
@@ -165,7 +164,7 @@ autocmd("LspAttach", {
             vim.diagnostic.goto_prev()
         end, opts)
 
-        vim.keymap.set({ "n", "v", "i" }, "<C-LeftMouse>", function()
+        vim.keymap.set({ "n", "v", "i" }, "<MiddleMouse>", function()
             local keymap_with_termcodes_replaced = vim.api.nvim_replace_termcodes("<LeftMouse>", true, true, true)
             vim.api.nvim_feedkeys(keymap_with_termcodes_replaced, "a", true)
             vim.schedule(function()
