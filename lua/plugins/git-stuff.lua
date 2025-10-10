@@ -64,7 +64,7 @@ return {
 			-- Helper: Close fugitive window with cleanup
 			local function close_fugitive_with_cleanup()
 				vim.api.nvim_set_current_win(fugitive_win)
-				vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("dq", true, false, true), "m", false)
+				vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<CR>", true, false, true), "m", false)
 				vim.defer_fn(function()
 					if vim.api.nvim_win_is_valid(fugitive_win) then
 						vim.api.nvim_win_close(fugitive_win, false)

@@ -40,8 +40,8 @@ vim.keymap.set("n", "<F2>", vim.diagnostic.goto_next)
 
 vim.keymap.set("n", "<A-]>", "<cmd>resize +2<cr>")
 vim.keymap.set("n", "<A-[>", "<cmd>resize -2<cr>")
-vim.keymap.set("n", "<A-'>", "<cmd>vertical resize +2<cr>")
-vim.keymap.set("n", "<A-;>", "<cmd>vertical resize -2<cr>")
+vim.keymap.set("n", "<A-'>", "<cmd>vertical resize +8<cr>")
+vim.keymap.set("n", "<A-;>", "<cmd>vertical resize -8<cr>")
 
 vim.keymap.set("n", "<A-/>", ":noh <cr>")
 
