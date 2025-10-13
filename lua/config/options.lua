@@ -16,6 +16,7 @@ vim.opt.scrolloff = 10
 -- vim.opt.scrolloff = 999
 vim.opt.incsearch = true
 vim.opt.splitright = true
+vim.o.autoread = true
 
 if utils.IS_WINDOWS then
     vim.opt.shell = "powershell /nologo"
@@ -30,6 +31,11 @@ vim.cmd([[highlight DiagnosticVirtualTextError guifg=#ea6962]])
 vim.cmd([[highlight DiagnosticVirtualTextWarn guifg=#d8a657]])
 vim.cmd([[highlight DiagnosticVirtualTextInfo guifg=#7daea3]])
 vim.cmd([[highlight DiagnosticVirtualTextHint guifg=#a9b665]])
+
+-- Line number color
+vim.api.nvim_set_hl(0, 'LineNrAbove', { fg='#51B3EC', bold=true })
+vim.api.nvim_set_hl(0, 'LineNr', { fg='white', bold=true })
+vim.api.nvim_set_hl(0, 'LineNrBelow', { fg='#FB508F', bold=true })
 
 -- vim.diagnostic.config({ virtual_text = false, virtual_lines = { current_line = false } })
 vim.diagnostic.config({ virtual_text = true })
