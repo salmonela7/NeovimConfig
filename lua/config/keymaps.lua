@@ -38,6 +38,13 @@ vim.keymap.set({ "n", "v", "i" }, "<C-o>", "<C-o>zz")
 vim.keymap.set({ "n", "v", "i" }, "<X2Mouse>", "<C-i>zz")
 vim.keymap.set({ "n", "v", "i" }, "<X1Mouse>", "<C-o>zz")
 
+-- vim.keymap.set({ "n", "v", "i" }, "<X2Mouse>", function ()
+--    print("Mouse forward")
+-- end)
+-- vim.keymap.set({ "n", "v", "i" }, "<X1Mouse>", function ()
+--    print("Mouse back")
+-- end)
+
 vim.keymap.set("n", "<F2>", vim.diagnostic.goto_next)
 
 vim.keymap.set("n", "<A-]>", "<cmd>resize +2<cr>")

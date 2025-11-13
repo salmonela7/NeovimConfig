@@ -50,26 +50,22 @@ return {
 				vim.cmd("diffoff!")
 			end
 
-			-- Helper: Auto-resize fugitive window based on content
-			local function auto_resize_fugitive()
-				local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
-				local max_len = 0
-				for _, line in ipairs(lines) do
-					max_len = math.max(max_len, vim.fn.strdisplaywidth(line))
-				end
-				local width = math.min(math.max(max_len + 4, 40), 80)
-				vim.cmd("vertical resize " .. width)
-			end
-
 			-- Helper: Close fugitive window with cleanup
 			local function close_fugitive_with_cleanup()
 				vim.api.nvim_set_current_win(fugitive_win)
-				vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<CR>", true, false, true), "m", false)
+				-- vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<CR>", true, false, true), "m", false)
+
+				vim.cmd("windo diffoff")
+
+				vim.defer_fn(function()
+					vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<C-w><C-o>", true, false, true), "m", false)
+				end, FOCUS_DELAY_MS)
+
 				vim.defer_fn(function()
 					if vim.api.nvim_win_is_valid(fugitive_win) then
 						vim.api.nvim_win_close(fugitive_win, false)
 					end
-				end, FOCUS_DELAY_MS)
+				end, 500)
 			end
 
 			-- Setup buffer-local keymaps for fugitive
@@ -96,9 +92,11 @@ return {
 						close_fugitive_windows()
 					end
 				else
+					local width = math.floor(vim.o.columns * 0.15)
 					vim.cmd("topleft vertical Git")
+					vim.cmd("vertical resize " .. width)
+
 					fugitive_win = vim.api.nvim_get_current_win()
-					vim.schedule(auto_resize_fugitive)
 				end
 			end, { desc = "Toggle git status" })
 
