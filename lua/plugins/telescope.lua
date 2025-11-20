@@ -49,7 +49,6 @@ return {
 							["<esc>"] = actions.close,
 							["<C-p>"] = actions.close,
 							["<CR>"] = actions.select_default + actions.center,
-                            --mouse controls
 							["<ScrollWheelUp>"] = actions.move_selection_previous,
 							["<ScrollWheelDown>"] = actions.move_selection_next,
 						},
