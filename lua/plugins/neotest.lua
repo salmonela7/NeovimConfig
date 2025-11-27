@@ -64,13 +64,11 @@ return {
             vim.keymap.set("n", "<leader>tf", function()
                 vim.cmd("silent! wa")
                 neotest.run.run(vim.fn.expand("%"))
-                neotest.summary.open()
             end)
 
             vim.keymap.set("n", "<leader>tl", function()
                 vim.cmd("silent! wa")
                 neotest.run.run_last()
-                neotest.summary.open()
             end)
 
             vim.keymap.set("n", "<leader>to", function()
@@ -84,25 +82,21 @@ return {
             vim.keymap.set("n", "<leader>tt", function()
                 vim.cmd("silent! wa")
                 neotest.run.run()
-                neotest.summary.open()
             end)
 
             vim.keymap.set("n", "<leader>dt", function()
                 vim.cmd("silent! wa")
                 neotest.run.run({ strategy = "dap" })
-                neotest.summary.open()
             end)
 
             vim.keymap.set("n", "<leader>dl", function()
                 vim.cmd("silent! wa")
                 neotest.run.run_last({ strategy = "dap" })
-                neotest.summary.open()
             end)
 
             vim.keymap.set("n", "<leader>at", function()
                 vim.cmd("silent! wa")
                 vim.cmd("Floatexecute go test -p 1 ./...")
-                neotest.summary.open()
             end)
 
             vim.keymap.set("n", "<leader>ts", function()

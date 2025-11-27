@@ -129,6 +129,9 @@ return {
 			vim.keymap.set("n", "<leader>vh", builtin.help_tags, {})
 			vim.keymap.set("n", "<leader><leader>", builtin.oldfiles, {})
 			vim.keymap.set("n", "<leader>fs", builtin.lsp_dynamic_workspace_symbols, {})
+			vim.keymap.set("n", "<leader>bu", function()
+				builtin.buffers({ sort_lastused = true })
+			end)
 
 			telescope.load_extension("ui-select")
 			telescope.load_extension("live_grep_args")
