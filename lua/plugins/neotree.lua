@@ -28,6 +28,7 @@ return {
                 mappings = {
                     ["<leader>S"] = "open_split",
                     ["<leader>s"] = "open_vsplit",
+                    ["/"] = "noop"
                 },
                 auto_expand_width = true,
             },
