@@ -2,16 +2,52 @@ local group = vim.api.nvim_create_augroup("lspconfig.roslyn_ls", { clear = true 
 
 ---@param client vim.lsp.Client
 local function refresh_diagnostics(client)
-	for buf, _ in pairs(vim.lsp.get_client_by_id(client.id).attached_buffers) do
-		if vim.api.nvim_buf_is_loaded(buf) then
-			client:request(
-				vim.lsp.protocol.Methods.textDocument_diagnostic,
-				{ textDocument = vim.lsp.util.make_text_document_params(buf) },
-                nil,
-				buf
-			)
-		end
-	end
+  for buf, _ in pairs(vim.lsp.get_client_by_id(client.id).attached_buffers) do
+    if vim.api.nvim_buf_is_loaded(buf) then
+      client:request(
+        vim.lsp.protocol.Methods.textDocument_diagnostic,
+        { textDocument = vim.lsp.util.make_text_document_params(buf) },
+        nil,
+        buf
+      )
+    end
+  end
+end
+
+local function roslyn_handlers()
+  return {
+    ['workspace/projectInitializationComplete'] = function(_, _, ctx)
+      vim.notify('Roslyn project initialization complete', vim.log.levels.INFO, { title = 'roslyn_ls' })
+      local client = assert(vim.lsp.get_client_by_id(ctx.client_id))
+      refresh_diagnostics(client)
+      return vim.NIL
+    end,
+    ['workspace/_roslyn_projectNeedsRestore'] = function(_, result, ctx)
+      local client = assert(vim.lsp.get_client_by_id(ctx.client_id))
+
+      ---@diagnostic disable-next-line: param-type-mismatch
+      client:request('workspace/_roslyn_restore', result, function(err, response)
+        if err then
+          vim.notify(err.message, vim.log.levels.ERROR, { title = 'roslyn_ls' })
+        end
+        if response then
+          for _, v in ipairs(response) do
+            vim.notify(v.message, vim.log.levels.INFO, { title = 'roslyn_ls' })
+          end
+        end
+      end)
+
+      return vim.NIL
+    end,
+    ['razor/provideDynamicFileInfo'] = function(_, _, _)
+      vim.notify(
+        'Razor is not supported.\nPlease use https://github.com/tris203/rzls.nvim',
+        vim.log.levels.WARN,
+        { title = 'roslyn_ls' }
+      )
+      return vim.NIL
+    end,
+  }
 end
 
 return {
@@ -47,6 +83,7 @@ return {
 		ft = "cs",
 		opts = {
 			filewatching = "roslyn",
+            handlers = roslyn_handlers(),
 		},
 	},
 	{
