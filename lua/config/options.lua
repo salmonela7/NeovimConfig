@@ -34,6 +34,12 @@ vim.cmd([[highlight DiagnosticInfo guifg=#7daea3]])
 vim.cmd([[highlight DiagnosticHint guifg=#a9b665]])
 vim.cmd([[highlight DiagnosticOk guifg=#10fa07]])
 
+vim.cmd([[highlight DiagnosticVirtualTextError guifg=#bf0b02]])
+vim.cmd([[highlight DiagnosticVirtualTextWarn guifg=#d8a657]])
+vim.cmd([[highlight DiagnosticVirtualTextInfo guifg=#7daea3]])
+vim.cmd([[highlight DiagnosticVirtualTextHint guifg=#a9b665]])
+vim.cmd([[highlight DiagnosticVirtualTextOk guifg=#10fa07]])
+
 vim.cmd([[highlight DiagnosticUnderlineError gui=undercurl guifg=#ea6962]])
 vim.cmd([[highlight DiagnosticUnderlineWarn gui=undercurl guisp=#d8a657]])
 vim.cmd([[highlight DiagnosticUnderlineInfo gui=undercurl guisp=#7daea3]])
@@ -45,10 +51,9 @@ vim.api.nvim_set_hl(0, "LineNrAbove", { fg = "#51B3EC", bold = true })
 vim.api.nvim_set_hl(0, "LineNr", { fg = "white", bold = true })
 vim.api.nvim_set_hl(0, "LineNrBelow", { fg = "#FB508F", bold = true })
 
--- vim.diagnostic.config({ virtual_text = false, virtual_lines = { current_line = false } })
 vim.diagnostic.config({
-    -- virtual_text = true,
-    virtual_lines = { current_line = true },
+    virtual_text = true,
+    -- virtual_lines = { current_line = true },
     underline = true,
     severity_sort = true,
     update_in_insert = false,

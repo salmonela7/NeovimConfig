@@ -199,13 +199,13 @@ return {
                     },
                 },
             })
-            vim.lsp.config("intelephense", {
+            require("lspconfig").intelephense.setup({
                 capabilities = capabilities,
                 cmd = { "intelephense", "--stdio" },
                 filetypes = { "php" },
                 root_dir = util.root_pattern("composer.json", ".git"),
             })
-            vim.lsp.config("phpactor", {
+            require("lspconfig").phpactor.setup({
                 capabilities = capabilities,
                 cmd = { "phpactor", "language-server" },
                 filetypes = { "php" },
@@ -241,6 +241,50 @@ return {
                     on_attach(client, bufnr)
                 end,
             })
+            -- vim.lsp.config("intelephense", {
+            --     capabilities = capabilities,
+            --     cmd = { "intelephense", "--stdio" },
+            --     filetypes = { "php" },
+            --     root_dir = util.root_pattern("composer.json", ".git"),
+            -- })
+            -- vim.lsp.config("phpactor", {
+            --     capabilities = capabilities,
+            --     cmd = { "phpactor", "language-server" },
+            --     filetypes = { "php" },
+            --     root_dir = util.root_pattern("composer.json", ".git"),
+            --     init_options = {
+            --         ["language_server_phpstan.enabled"] = false,
+            --         ["language_server_psalm.enabled"] = false,
+            --     },
+            --     on_attach = function(client, bufnr)
+            --         client.server_capabilities.hoverProvider = false
+            --         client.server_capabilities.completionProvider = false
+            --         client.server_capabilities.signatureHelpProvider = false
+            --         client.server_capabilities.definitionProvider = false
+            --         client.server_capabilities.referencesProvider = false
+            --         client.server_capabilities.documentHighlightProvider = false
+            --         client.server_capabilities.documentSymbolProvider = false
+            --         client.server_capabilities.workspaceSymbolProvider = false
+            --         client.server_capabilities.documentFormattingProvider = false
+            --         client.server_capabilities.documentRangeFormattingProvider = false
+            --         client.server_capabilities.documentOnTypeFormattingProvider = false
+            --         client.server_capabilities.documentLinkProvider = false
+            --         client.server_capabilities.colorProvider = false
+            --         client.server_capabilities.foldingRangeProvider = false
+            --         client.server_capabilities.executeCommandProvider = false
+            --         client.server_capabilities.semanticTokensProvider = false
+
+            --         client.server_capabilities.codeActionProvider = true
+            --         client.server_capabilities.codeLensProvider = true
+            --         client.server_capabilities.typeDefinitionProvider = true
+            --         client.server_capabilities.renameProvider = true
+            --         client.server_capabilities.implementationProvider = true
+
+            --         on_attach(client, bufnr)
+            --     end,
+            -- })
+            vim.lsp.enable('intelephense')
+            vim.lsp.enable('phpactor')
             vim.lsp.config("jsonls", {
                 capabilities = capabilities,
                 -- cmd = { bin_path .. prepareCmds("vscode-json-language-server") },
