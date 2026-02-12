@@ -46,71 +46,6 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 local augroup = vim.api.nvim_create_augroup
 local SalmonelaGroup = augroup("Salmonela", {})
 
-local function goToDefinitionAndCenterHandler(err, result, ctx, config)
-    local handler = require("telescope.builtin").lsp_definitions
-
-    if err ~= nil then
-        print("Error occurred on " .. ctx.method .. "...")
-        return
-    end
-
-    if result == nil then
-        print(ctx.method .. " yielded no results...")
-        return
-    end
-
-    local res, error = handler(err, result, ctx, config)
-
-    local keymap_with_termcodes_replaced = vim.api.nvim_replace_termcodes("zz", true, true, true)
-    vim.api.nvim_feedkeys(keymap_with_termcodes_replaced, "a", true)
-
-    return res, error
-end
-
-local function goToReferencesAndCenterHandler(err, result, ctx, config)
-    local handler = require("telescope.builtin").lsp_references
-    if err ~= nil then
-        print("Error occurred on " .. ctx.method .. "...")
-        return
-    end
-
-    if result == nil then
-        print(ctx.method .. " yielded no results...")
-        return
-    end
-
-    local res, error = handler(err, result, ctx, config)
-
-    if #result == 1 then
-        local keymap_with_termcodes_replaced = vim.api.nvim_replace_termcodes("zz", true, true, true)
-        vim.api.nvim_feedkeys(keymap_with_termcodes_replaced, "a", true)
-    end
-
-    return res, error
-end
-
-local function goToImplementationsAndCenterHandler(err, result, ctx, config)
-    local handler = require("telescope.builtin").lsp_implementations
-    if err ~= nil then
-        print("Error occurred on " .. ctx.method .. "...")
-        return
-    end
-
-    if result == nil then
-        print(ctx.method .. " yielded no results...")
-        return
-    end
-
-    local res, error = handler(err, result, ctx, config)
-
-    if #result == 1 then
-        local keymap_with_termcodes_replaced = vim.api.nvim_replace_termcodes("zz", true, true, true)
-        vim.api.nvim_feedkeys(keymap_with_termcodes_replaced, "a", true)
-    end
-
-    return res, error
-end
-
 vim.api.nvim_create_autocmd("LspAttach", {
     callback = function(args)
         local client = vim.lsp.get_client_by_id(args.data.client_id)
@@ -132,30 +67,9 @@ autocmd("LspAttach", {
         vim.keymap.set("n", "<leader>i", vim.lsp.buf.hover, {})
         vim.keymap.set("n", "<leader>di", vim.diagnostic.open_float, {})
 
-        -- vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, {})
-        vim.keymap.set("n", "<leader>gd", function()
-            local util = require("vim.lsp.util")
-            local params = util.make_position_params()
-
-            vim.lsp.buf_request(0, "textDocument/definition", params, goToDefinitionAndCenterHandler)
-        end, {})
-
-        -- vim.keymap.set("n", "<leader>gu", vim.lsp.buf.references, {})
-        vim.keymap.set("n", "<leader>gu", function()
-            local util = require("vim.lsp.util")
-            local params = util.make_position_params()
-            params.context = { includeDeclaration = false }
-
-            vim.lsp.buf_request(0, "textDocument/references", params, goToReferencesAndCenterHandler)
-        end, {})
-
-        -- vim.keymap.set("n", "<leader>gi", vim.lsp.buf.implementation, {})
-        vim.keymap.set("n", "<leader>gi", function()
-            local util = require("vim.lsp.util")
-            local params = util.make_position_params()
-
-            vim.lsp.buf_request(0, "textDocument/implementation", params, goToImplementationsAndCenterHandler)
-        end, {})
+        vim.keymap.set("n", "<leader>gd", require("telescope.builtin").lsp_definitions, {})
+        vim.keymap.set("n", "<leader>gu", require("telescope.builtin").lsp_references, {})
+        vim.keymap.set("n", "<leader>gi", require("telescope.builtin").lsp_implementations, {})
 
         vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, {})
         vim.keymap.set("n", "<leader>r", vim.lsp.buf.rename, {})
@@ -173,7 +87,7 @@ autocmd("LspAttach", {
             local keymap_with_termcodes_replaced = vim.api.nvim_replace_termcodes("<LeftMouse>", true, true, true)
             vim.api.nvim_feedkeys(keymap_with_termcodes_replaced, "a", true)
             vim.schedule(function()
-                vim.lsp.buf.definition()
+                require("telescope.builtin").lsp_definitions()
             end)
         end, {})
     end,

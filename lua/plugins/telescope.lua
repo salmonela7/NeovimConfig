@@ -1,7 +1,7 @@
 return {
 	{
 		"nvim-telescope/telescope.nvim",
-		tag = "0.1.5",
+		tag = "v0.2.1",
 		dependencies = {
 
 			{
@@ -13,10 +13,6 @@ return {
 			{
 				"nvim-telescope/telescope-live-grep-args.nvim",
 				version = "^1.0.0",
-			},
-			{
-				"gbrlsnchs/telescope-lsp-handlers.nvim",
-				config = function() end,
 			},
 		},
 		config = function()
@@ -34,6 +30,18 @@ return {
 					return text
 				else
 					return ""
+				end
+			end
+
+			-- Auto-select when single result, otherwise open picker in insert mode
+			local function auto_select_single(picker)
+				picker:clear_completion_callbacks()
+				if picker.manager.linked_states.size == 1 then
+					require("telescope.actions").select_default(picker.prompt_bufnr)
+				else
+					local keymap_with_termcodes_replaced =
+						vim.api.nvim_replace_termcodes("i", true, true, true)
+					vim.api.nvim_feedkeys(keymap_with_termcodes_replaced, "a", true)
 				end
 			end
 
@@ -66,41 +74,22 @@ return {
 					},
 				},
 				pickers = {
+					lsp_definitions = {
+						fname_width = 100,
+						initial_mode = "normal",
+						on_complete = { auto_select_single },
+					},
 					lsp_references = {
 						fname_width = 100,
 						include_declaration = false,
 						initial_mode = "normal",
-						on_complete = {
-							function(picker)
-								picker:clear_completion_callbacks()
-								if picker.manager.linked_states.size == 1 then
-									require("telescope.actions").select_default(picker.prompt_bufnr)
-								else
-									-- enter insert mode (the only workaround I found)
-									local keymap_with_termcodes_replaced =
-										vim.api.nvim_replace_termcodes("i", true, true, true)
-									vim.api.nvim_feedkeys(keymap_with_termcodes_replaced, "a", true)
-								end
-							end,
-						},
+						on_complete = { auto_select_single },
 					},
 					lsp_implementations = {
 						fname_width = 100,
 						include_declaration = false,
 						initial_mode = "normal",
-						on_complete = {
-							function(picker)
-								picker:clear_completion_callbacks()
-								if picker.manager.linked_states.size == 1 then
-									require("telescope.actions").select_default(picker.prompt_bufnr)
-								else
-									-- enter insert mode (the only workaround I found)
-									local keymap_with_termcodes_replaced =
-										vim.api.nvim_replace_termcodes("i", true, true, true)
-									vim.api.nvim_feedkeys(keymap_with_termcodes_replaced, "a", true)
-								end
-							end,
-						},
+						on_complete = { auto_select_single },
 					},
 				},
 				extensions = {
@@ -135,7 +124,6 @@ return {
 
 			telescope.load_extension("ui-select")
 			telescope.load_extension("live_grep_args")
-			telescope.load_extension("lsp_handlers")
 			telescope.load_extension("find_template")
 		end,
 	},
