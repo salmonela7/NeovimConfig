@@ -92,31 +92,8 @@ return {
         config = function()
             local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-            local on_attach = function(_, bufnr)
-                vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
-            end
-
-            local util = require("lspconfig/util")
-            local osresolve = require("config.utils")
-
-            local bin_path = ""
-            if osresolve.IS_LINUX or osresolve.IS_MAC then
-                bin_path = os.getenv("HOME") .. "/.local/share/nvim/mason/bin/"
-            else
-                bin_path = os.getenv("USERPROFILE") .. "/AppData/Local/nvim-data/mason/bin/"
-            end
-
-            local function prepareCmds(name)
-                if osresolve.IS_WINDOWS then
-                    return name .. ".cmd"
-                else
-                    return name
-                end
-            end
-
             vim.lsp.config("lua_ls", {
                 capabilities = capabilities,
-                cmd = { bin_path .. prepareCmds("lua-language-server") },
                 settings = {
                     Lua = {
                         diagnostics = {
@@ -125,12 +102,9 @@ return {
                     },
                 },
             })
+
             vim.lsp.config("gopls", {
                 capabilities = capabilities,
-                on_attach = on_attach,
-                cmd = { bin_path .. prepareCmds("gopls") },
-                filetypes = { "go", "gomod", "gowork", "gotmpl" },
-                root_dir = util.root_pattern("go.work", "go.mod", ".git"),
                 settings = {
                     gopls = {
                         completeUnimported = true,
@@ -143,9 +117,9 @@ return {
                     },
                 },
             })
+
             vim.lsp.config("roslyn", {
                 on_attach = function(client, bufnr)
-                    -- avoid duplicate autocmds for same buffer
                     if vim.api.nvim_get_autocmds({ buffer = bufnr, group = group })[1] then
                         return
                     end
@@ -160,7 +134,6 @@ return {
                     })
                 end,
                 capabilities = {
-                    -- HACK: Doesn't show any diagnostics if we do not set this to true
                     textDocument = {
                         diagnostic = {
                             dynamicRegistration = true,
@@ -199,22 +172,23 @@ return {
                     },
                 },
             })
-            require("lspconfig").intelephense.setup({
+
+            -- intelephense: primary PHP LSP for everything except implementations
+            vim.lsp.config("intelephense", {
                 capabilities = capabilities,
-                cmd = { "intelephense", "--stdio" },
-                filetypes = { "php" },
-                root_dir = util.root_pattern("composer.json", ".git"),
+                on_attach = function(client)
+                    client.server_capabilities.implementationProvider = false
+                end,
             })
-            require("lspconfig").phpactor.setup({
+
+            -- phpactor: only used for go-to-implementation
+            vim.lsp.config("phpactor", {
                 capabilities = capabilities,
-                cmd = { "phpactor", "language-server" },
-                filetypes = { "php" },
-                root_dir = util.root_pattern("composer.json", ".git"),
                 init_options = {
                     ["language_server_phpstan.enabled"] = false,
                     ["language_server_psalm.enabled"] = false,
                 },
-                on_attach = function(client, bufnr)
+                on_attach = function(client)
                     client.server_capabilities.hoverProvider = false
                     client.server_capabilities.completionProvider = false
                     client.server_capabilities.signatureHelpProvider = false
@@ -232,67 +206,28 @@ return {
                     client.server_capabilities.executeCommandProvider = false
                     client.server_capabilities.semanticTokensProvider = false
 
+                    client.server_capabilities.implementationProvider = true
                     client.server_capabilities.codeActionProvider = true
                     client.server_capabilities.codeLensProvider = true
                     client.server_capabilities.typeDefinitionProvider = true
                     client.server_capabilities.renameProvider = true
-                    client.server_capabilities.implementationProvider = true
-
-                    on_attach(client, bufnr)
                 end,
             })
-            -- vim.lsp.config("intelephense", {
-            --     capabilities = capabilities,
-            --     cmd = { "intelephense", "--stdio" },
-            --     filetypes = { "php" },
-            --     root_dir = util.root_pattern("composer.json", ".git"),
-            -- })
-            -- vim.lsp.config("phpactor", {
-            --     capabilities = capabilities,
-            --     cmd = { "phpactor", "language-server" },
-            --     filetypes = { "php" },
-            --     root_dir = util.root_pattern("composer.json", ".git"),
-            --     init_options = {
-            --         ["language_server_phpstan.enabled"] = false,
-            --         ["language_server_psalm.enabled"] = false,
-            --     },
-            --     on_attach = function(client, bufnr)
-            --         client.server_capabilities.hoverProvider = false
-            --         client.server_capabilities.completionProvider = false
-            --         client.server_capabilities.signatureHelpProvider = false
-            --         client.server_capabilities.definitionProvider = false
-            --         client.server_capabilities.referencesProvider = false
-            --         client.server_capabilities.documentHighlightProvider = false
-            --         client.server_capabilities.documentSymbolProvider = false
-            --         client.server_capabilities.workspaceSymbolProvider = false
-            --         client.server_capabilities.documentFormattingProvider = false
-            --         client.server_capabilities.documentRangeFormattingProvider = false
-            --         client.server_capabilities.documentOnTypeFormattingProvider = false
-            --         client.server_capabilities.documentLinkProvider = false
-            --         client.server_capabilities.colorProvider = false
-            --         client.server_capabilities.foldingRangeProvider = false
-            --         client.server_capabilities.executeCommandProvider = false
-            --         client.server_capabilities.semanticTokensProvider = false
 
-            --         client.server_capabilities.codeActionProvider = true
-            --         client.server_capabilities.codeLensProvider = true
-            --         client.server_capabilities.typeDefinitionProvider = true
-            --         client.server_capabilities.renameProvider = true
-            --         client.server_capabilities.implementationProvider = true
-
-            --         on_attach(client, bufnr)
-            --     end,
-            -- })
-            vim.lsp.enable('intelephense')
-            vim.lsp.enable('phpactor')
             vim.lsp.config("jsonls", {
                 capabilities = capabilities,
-                -- cmd = { bin_path .. prepareCmds("vscode-json-language-server") },
             })
+
             vim.lsp.config("rust_analyzer", {
                 capabilities = capabilities,
-                cmd = { bin_path .. prepareCmds("rust-analyzer") },
             })
+
+            vim.lsp.enable("lua_ls")
+            vim.lsp.enable("gopls")
+            vim.lsp.enable("intelephense")
+            vim.lsp.enable("phpactor")
+            vim.lsp.enable("jsonls")
+            vim.lsp.enable("rust_analyzer")
         end,
     },
 }
