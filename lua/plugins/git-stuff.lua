@@ -102,6 +102,7 @@ return {
 
 			-- Return to fugitive window
 			vim.keymap.set("n", "<leader>gb", return_to_fugitive, { desc = "Return to git status" })
+			vim.keymap.set("n", "<leader>nb", ":G stash | G checkout master | G pull | G checkout -b ")
 		end,
 	},
 	{
