@@ -37,36 +37,31 @@ return {
                     symbols = {
                         added = "✚",
                         deleted = "✖",
-                        modified = "",
+                        modified = "",
                         renamed = "󰁕",
-                        -- Status type
-                        -- untracked = "",
                         untracked = "",
-                        -- ignored = "",
                         ignored = "",
-                        -- unstaged = "󰄱",
                         unstaged = "",
-                        -- staged = "",
                         staged = "",
-                        conflict = "",
+                        conflict = "",
                     },
                     align = "right",
                 },
                 file_size = {
                     enabled = false,
-                    required_width = 64, -- min width of window required to show this column
+                    required_width = 64,
                 },
                 type = {
                     enabled = false,
-                    required_width = 110, -- min width of window required to show this column
+                    required_width = 110,
                 },
                 last_modified = {
                     enabled = false,
-                    required_width = 88, -- min width of window required to show this column
+                    required_width = 88,
                 },
                 created = {
                     enabled = false,
-                    required_width = 120, -- min width of window required to show this column
+                    required_width = 120,
                 },
                 symlink_target = {
                     enabled = false,

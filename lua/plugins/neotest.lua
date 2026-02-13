@@ -12,7 +12,6 @@ return {
                     "uga-rosa/utf8.nvim",
                 },
             },
-            -- "Issafalcon/neotest-dotnet",
             "nsidorenco/neotest-vstest",
         },
         config = function()
@@ -40,12 +39,6 @@ return {
                         go_test_args = {},
                         runner = "gotestsum",
                     }),
-                    -- require("neotest-dotnet")({
-                    -- 	discovery_root = "solution",
-                    --                    dap = {
-                    --                        adapter_name = "coreclr",
-                    --                    },
-                    -- }),
                     require("neotest-vstest")({
                         dap_settings = {
                             type = "coreclr"
@@ -53,12 +46,6 @@ return {
                     }),
                 },
                 status = { virtual_text = true },
-                -- quickfix = {
-                --     open = function()
-                --         vim.cmd("Trouble quickfix")
-                --     end,
-                --     enabled = true,
-                -- },
             })
 
             vim.keymap.set("n", "<leader>tf", function()

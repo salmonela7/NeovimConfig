@@ -55,6 +55,7 @@ return {
 							["<leader>s"] = actions.file_vsplit + actions.center,
 							["<leader>S"] = actions.file_split + actions.center,
 							["<esc>"] = actions.close,
+							["kj"] = actions.close,
 							["<C-p>"] = actions.close,
 							["<CR>"] = actions.select_default + actions.center,
 							["<ScrollWheelUp>"] = actions.move_selection_previous,

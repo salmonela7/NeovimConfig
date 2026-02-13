@@ -1,19 +1,18 @@
 local utils = require("config.utils")
-vim.cmd("set expandtab")
-vim.cmd("set tabstop=4")
-vim.cmd("set softtabstop=4")
-vim.cmd("set shiftwidth=4")
+
+vim.opt.expandtab = true
+vim.opt.tabstop = 4
+vim.opt.softtabstop = 4
+vim.opt.shiftwidth = 4
 
 vim.g.background = "dark"
 vim.opt.clipboard = "unnamedplus"
 vim.opt.timeoutlen = 400
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
--- vim.o.statuscolumn = "%s %l %r"
 vim.opt.nu = true
 vim.opt.rnu = true
 vim.opt.scrolloff = 10
--- vim.opt.scrolloff = 999
 vim.opt.incsearch = true
 vim.opt.splitright = true
 vim.o.autoread = true
@@ -27,33 +26,30 @@ end
 
 vim.cmd("colorscheme gruvbox-material")
 
--- Apply immediately for first load
-vim.cmd([[highlight DiagnosticError guifg=#ea6962]])
-vim.cmd([[highlight DiagnosticWarn guifg=#d8a657]])
-vim.cmd([[highlight DiagnosticInfo guifg=#7daea3]])
-vim.cmd([[highlight DiagnosticHint guifg=#a9b665]])
-vim.cmd([[highlight DiagnosticOk guifg=#10fa07]])
+vim.api.nvim_set_hl(0, "DiagnosticError", { fg = "#ea6962" })
+vim.api.nvim_set_hl(0, "DiagnosticWarn", { fg = "#d8a657" })
+vim.api.nvim_set_hl(0, "DiagnosticInfo", { fg = "#7daea3" })
+vim.api.nvim_set_hl(0, "DiagnosticHint", { fg = "#a9b665" })
+vim.api.nvim_set_hl(0, "DiagnosticOk", { fg = "#10fa07" })
 
-vim.cmd([[highlight DiagnosticVirtualTextError guifg=#bf0b02]])
-vim.cmd([[highlight DiagnosticVirtualTextWarn guifg=#d8a657]])
-vim.cmd([[highlight DiagnosticVirtualTextInfo guifg=#7daea3]])
-vim.cmd([[highlight DiagnosticVirtualTextHint guifg=#a9b665]])
-vim.cmd([[highlight DiagnosticVirtualTextOk guifg=#10fa07]])
+vim.api.nvim_set_hl(0, "DiagnosticVirtualTextError", { fg = "#bf0b02" })
+vim.api.nvim_set_hl(0, "DiagnosticVirtualTextWarn", { fg = "#d8a657" })
+vim.api.nvim_set_hl(0, "DiagnosticVirtualTextInfo", { fg = "#7daea3" })
+vim.api.nvim_set_hl(0, "DiagnosticVirtualTextHint", { fg = "#a9b665" })
+vim.api.nvim_set_hl(0, "DiagnosticVirtualTextOk", { fg = "#10fa07" })
 
-vim.cmd([[highlight DiagnosticUnderlineError gui=undercurl guifg=#ea6962]])
-vim.cmd([[highlight DiagnosticUnderlineWarn gui=undercurl guisp=#d8a657]])
-vim.cmd([[highlight DiagnosticUnderlineInfo gui=undercurl guisp=#7daea3]])
-vim.cmd([[highlight DiagnosticUnderlineHint gui=undercurl guisp=#a9b665]])
-vim.cmd([[highlight DiagnosticUnderlineOk gui=undercurl guisp=#10fa07]])
+vim.api.nvim_set_hl(0, "DiagnosticUnderlineError", { undercurl = true, fg = "#ea6962" })
+vim.api.nvim_set_hl(0, "DiagnosticUnderlineWarn", { undercurl = true, sp = "#d8a657" })
+vim.api.nvim_set_hl(0, "DiagnosticUnderlineInfo", { undercurl = true, sp = "#7daea3" })
+vim.api.nvim_set_hl(0, "DiagnosticUnderlineHint", { undercurl = true, sp = "#a9b665" })
+vim.api.nvim_set_hl(0, "DiagnosticUnderlineOk", { undercurl = true, sp = "#10fa07" })
 
--- Line number color
 vim.api.nvim_set_hl(0, "LineNrAbove", { fg = "#51B3EC", bold = true })
 vim.api.nvim_set_hl(0, "LineNr", { fg = "white", bold = true })
 vim.api.nvim_set_hl(0, "LineNrBelow", { fg = "#FB508F", bold = true })
 
 vim.diagnostic.config({
     virtual_text = true,
-    -- virtual_lines = { current_line = true },
     underline = true,
     severity_sort = true,
     update_in_insert = false,

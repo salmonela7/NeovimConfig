@@ -1,20 +1,8 @@
 local autocmd = vim.api.nvim_create_autocmd
 
--- vim.api.nvim_create_autocmd({ "FocusLost" }, {
---     command = "silent! wa",
--- })
-
--- vim.api.nvim_create_autocmd({ "BufLeave" }, {
---     command = "silent! wa",
--- })
-
--- vim.api.nvim_create_autocmd({ "VimLeavePre" }, {
---     command = "silent! wa",
--- })
-
 vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "CursorHoldI", "FocusGained" }, {
-  command = "if mode() != 'c' | checktime | endif",
-  pattern = { "*" },
+    command = "if mode() != 'c' | checktime | endif",
+    pattern = { "*" },
 })
 
 vim.api.nvim_create_autocmd("TextYankPost", {
@@ -76,12 +64,8 @@ autocmd("LspAttach", {
         vim.keymap.set("i", "<C-h>", function()
             vim.lsp.buf.signature_help()
         end, opts)
-        vim.keymap.set("n", "[d", function()
-            vim.diagnostic.goto_prev()
-        end, opts)
-        vim.keymap.set("n", "]d", function()
-            vim.diagnostic.goto_next()
-        end, opts)
+        vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
+        vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
 
         vim.keymap.set({ "n", "v", "i" }, "<MiddleMouse>", function()
             local keymap_with_termcodes_replaced = vim.api.nvim_replace_termcodes("<LeftMouse>", true, true, true)

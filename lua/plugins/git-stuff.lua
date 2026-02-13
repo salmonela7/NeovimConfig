@@ -5,23 +5,20 @@ return {
 			local fugitive_win = nil
 			local FOCUS_DELAY_MS = 50
 
-			-- Helper: Check if buffer has git filetype
 			local function is_git_buffer(buf)
 				if not vim.api.nvim_buf_is_valid(buf) then
 					return false
 				end
-				local ft = vim.api.nvim_buf_get_option(buf, "filetype")
+				local ft = vim.bo[buf].filetype
 				return ft == "fugitive" or ft == "git"
 			end
 
-			-- Helper: Return focus to fugitive window
 			local function return_to_fugitive()
 				if fugitive_win and vim.api.nvim_win_is_valid(fugitive_win) then
 					vim.api.nvim_set_current_win(fugitive_win)
 				end
 			end
 
-			-- Helper: Execute fugitive command with motion and return focus
 			local function execute_fugitive_command(motion, command)
 				if motion then
 					vim.cmd("normal! " .. motion)
@@ -30,7 +27,6 @@ return {
 				vim.defer_fn(return_to_fugitive, FOCUS_DELAY_MS)
 			end
 
-			-- Helper: Check if any fugitive buffer exists
 			local function has_fugitive_buffer()
 				for _, buf in ipairs(vim.api.nvim_list_bufs()) do
 					if is_git_buffer(buf) then
@@ -40,7 +36,6 @@ return {
 				return false
 			end
 
-			-- Helper: Close all fugitive windows and turn off diff
 			local function close_fugitive_windows()
 				for _, win in ipairs(vim.api.nvim_list_wins()) do
 					if is_git_buffer(vim.api.nvim_win_get_buf(win)) then
@@ -50,10 +45,8 @@ return {
 				vim.cmd("diffoff!")
 			end
 
-			-- Helper: Close fugitive window with cleanup
 			local function close_fugitive_with_cleanup()
 				vim.api.nvim_set_current_win(fugitive_win)
-				-- vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<CR>", true, false, true), "m", false)
 
 				vim.cmd("windo diffoff")
 
@@ -68,7 +61,6 @@ return {
 				end, 500)
 			end
 
-			-- Setup buffer-local keymaps for fugitive
 			vim.api.nvim_create_autocmd("FileType", {
 				pattern = "fugitive",
 				callback = function(args)
@@ -83,7 +75,6 @@ return {
 				end,
 			})
 
-			-- Toggle fugitive window
 			vim.keymap.set("n", "<leader>gg", function()
 				if has_fugitive_buffer() then
 					if fugitive_win and vim.api.nvim_win_is_valid(fugitive_win) then
@@ -100,7 +91,6 @@ return {
 				end
 			end, { desc = "Toggle git status" })
 
-			-- Return to fugitive window
 			vim.keymap.set("n", "<leader>gb", return_to_fugitive, { desc = "Return to git status" })
 			vim.keymap.set("n", "<leader>nb", ":G stash | G checkout master | G pull | G checkout -b ")
 		end,
