@@ -44,6 +44,8 @@ vim.api.nvim_set_hl(0, "DiagnosticUnderlineInfo", { undercurl = true, sp = "#7da
 vim.api.nvim_set_hl(0, "DiagnosticUnderlineHint", { undercurl = true, sp = "#a9b665" })
 vim.api.nvim_set_hl(0, "DiagnosticUnderlineOk", { undercurl = true, sp = "#10fa07" })
 
+vim.api.nvim_set_hl(0, "Visual", { fg = "#282828", bg = "#FF77FF" })
+
 vim.api.nvim_set_hl(0, "LineNrAbove", { fg = "#51B3EC", bold = true })
 vim.api.nvim_set_hl(0, "LineNr", { fg = "white", bold = true })
 vim.api.nvim_set_hl(0, "LineNrBelow", { fg = "#FB508F", bold = true })
