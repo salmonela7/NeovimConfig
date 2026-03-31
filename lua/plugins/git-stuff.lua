@@ -46,19 +46,28 @@ return {
 			end
 
 			local function close_fugitive_with_cleanup()
-				vim.api.nvim_set_current_win(fugitive_win)
+				local prev_win = vim.api.nvim_get_current_win()
 
-				vim.cmd("windo diffoff")
+				-- Turn off diff in all windows without changing focus
+				for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+					vim.wo[win].diff = false
+				end
 
-				vim.defer_fn(function()
-					vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<C-w><C-o>", true, false, true), "m", false)
-				end, FOCUS_DELAY_MS)
-
-				vim.defer_fn(function()
-					if vim.api.nvim_win_is_valid(fugitive_win) then
-						vim.api.nvim_win_close(fugitive_win, false)
+				-- Close fugitive:// diff windows
+				for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+					local buf = vim.api.nvim_win_get_buf(win)
+					if vim.api.nvim_buf_get_name(buf):match("^fugitive://") then
+						vim.api.nvim_win_close(win, false)
 					end
-				end, 500)
+				end
+
+				close_fugitive_windows()
+				fugitive_win = nil
+
+				-- Restore focus to where we were (or previous window if that was fugitive)
+				if vim.api.nvim_win_is_valid(prev_win) then
+					vim.api.nvim_set_current_win(prev_win)
+				end
 			end
 
 			vim.api.nvim_create_autocmd("FileType", {

@@ -1,7 +1,11 @@
 return {
     "coder/claudecode.nvim",
     dependencies = { "folke/snacks.nvim" },
-    config = true,
+    opts = {
+        terminal = {
+            provider = require("config.providers.claudecode-snacks"),
+        },
+    },
     keys = {
         { "<leader>cc", "<cmd>ClaudeCode<cr>",            mode = { "n", "i" },         desc = "Toggle Claude" },
         { "<leader>cc", "<cmd>ClaudeCodeSend<cr>",        mode = "v",                  desc = "Send to Claude" },
