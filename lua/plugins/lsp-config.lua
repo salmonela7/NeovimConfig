@@ -173,44 +173,53 @@ return {
                 },
             })
 
-            -- intelephense: primary PHP LSP for everything except implementations
             vim.lsp.config("intelephense", {
                 capabilities = capabilities,
-                on_attach = function(client)
-                    client.server_capabilities.implementationProvider = false
-                end,
             })
 
-            -- phpactor: only used for go-to-implementation
             vim.lsp.config("phpactor", {
                 capabilities = capabilities,
                 init_options = {
                     ["language_server_phpstan.enabled"] = false,
                     ["language_server_psalm.enabled"] = false,
                 },
-                on_attach = function(client)
-                    client.server_capabilities.hoverProvider = false
-                    client.server_capabilities.completionProvider = false
-                    client.server_capabilities.signatureHelpProvider = false
-                    client.server_capabilities.definitionProvider = false
-                    client.server_capabilities.referencesProvider = false
-                    client.server_capabilities.documentHighlightProvider = false
-                    client.server_capabilities.documentSymbolProvider = false
-                    client.server_capabilities.workspaceSymbolProvider = false
-                    client.server_capabilities.documentFormattingProvider = false
-                    client.server_capabilities.documentRangeFormattingProvider = false
-                    client.server_capabilities.documentOnTypeFormattingProvider = false
-                    client.server_capabilities.documentLinkProvider = false
-                    client.server_capabilities.colorProvider = false
-                    client.server_capabilities.foldingRangeProvider = false
-                    client.server_capabilities.executeCommandProvider = false
-                    client.server_capabilities.semanticTokensProvider = false
+            })
 
-                    client.server_capabilities.implementationProvider = true
-                    client.server_capabilities.codeActionProvider = true
-                    client.server_capabilities.codeLensProvider = true
-                    client.server_capabilities.typeDefinitionProvider = true
-                    client.server_capabilities.renameProvider = true
+            vim.api.nvim_create_autocmd("LspAttach", {
+                callback = function(ev)
+                    local client = vim.lsp.get_client_by_id(ev.data.client_id)
+                    if not client then
+                        return
+                    end
+
+                    if client.name == "intelephense" then
+                        client.server_capabilities.implementationProvider = false
+                    end
+
+                    if client.name == "phpactor" then
+                        client.server_capabilities.hoverProvider = false
+                        client.server_capabilities.completionProvider = false
+                        client.server_capabilities.signatureHelpProvider = false
+                        client.server_capabilities.definitionProvider = false
+                        client.server_capabilities.referencesProvider = false
+                        client.server_capabilities.documentHighlightProvider = false
+                        client.server_capabilities.documentSymbolProvider = false
+                        client.server_capabilities.workspaceSymbolProvider = false
+                        client.server_capabilities.documentFormattingProvider = false
+                        client.server_capabilities.documentRangeFormattingProvider = false
+                        client.server_capabilities.documentOnTypeFormattingProvider = false
+                        client.server_capabilities.documentLinkProvider = false
+                        client.server_capabilities.colorProvider = false
+                        client.server_capabilities.foldingRangeProvider = false
+                        client.server_capabilities.executeCommandProvider = false
+                        client.server_capabilities.semanticTokensProvider = false
+
+                        client.server_capabilities.implementationProvider = true
+                        client.server_capabilities.codeActionProvider = true
+                        client.server_capabilities.codeLensProvider = true
+                        client.server_capabilities.typeDefinitionProvider = true
+                        client.server_capabilities.renameProvider = true
+                    end
                 end,
             })
 
