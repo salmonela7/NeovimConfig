@@ -24,7 +24,8 @@ if utils.IS_WINDOWS then
     vim.opt.shellxquote = ""
 end
 
-vim.cmd("colorscheme gruvbox-material")
+-- vim.cmd("colorscheme gruvbox-material")
+vim.cmd("colorscheme moonfly")
 
 vim.api.nvim_set_hl(0, "DiagnosticError", { fg = "#ea6962" })
 vim.api.nvim_set_hl(0, "DiagnosticWarn", { fg = "#d8a657" })
