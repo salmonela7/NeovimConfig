@@ -1,3 +1,19 @@
+vim.api.nvim_create_user_command("DiffOrig", "vert new | set buftype=nofile | read ++edit # | 0d_ | diffthis | wincmd p | diffthis", {})
+
+local diff_orig_buf = nil
+vim.keymap.set("n", "<leader>do", function()
+	if diff_orig_buf and vim.api.nvim_buf_is_valid(diff_orig_buf) then
+		vim.api.nvim_buf_delete(diff_orig_buf, { force = true })
+		vim.cmd("diffoff")
+		diff_orig_buf = nil
+	else
+		vim.cmd("DiffOrig")
+		vim.cmd("wincmd p")
+		diff_orig_buf = vim.api.nvim_get_current_buf()
+		vim.cmd("wincmd p")
+	end
+end, { desc = "Toggle DiffOrig" })
+
 local autocmd = vim.api.nvim_create_autocmd
 
 vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "CursorHoldI", "FocusGained" }, {
