@@ -2,8 +2,14 @@ return {
     "coder/claudecode.nvim",
     dependencies = { "folke/snacks.nvim" },
     opts = {
+        env = {
+            -- Force the classic renderer so the conversation stays in terminal
+            -- scrollback and is scrollable in normal mode.
+            CLAUDE_CODE_DISABLE_ALTERNATE_SCREEN = "1",
+        },
         terminal = {
-            provider = require("config.providers.claudecode-snacks"),
+            provider = "snacks",
+            auto_insert = false,
         },
     },
     keys = {
