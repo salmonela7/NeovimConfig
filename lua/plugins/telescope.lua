@@ -76,22 +76,30 @@ return {
 					},
 				},
 				pickers = {
+					-- file_ignore_patterns = {} keeps the global ignore (meant for file
+					-- searching) from filtering out LSP results when editing inside .worktrees/
 					lsp_definitions = {
 						fname_width = 100,
 						initial_mode = "normal",
 						on_complete = { auto_select_single },
+						file_ignore_patterns = {},
 					},
 					lsp_references = {
 						fname_width = 100,
 						include_declaration = false,
 						initial_mode = "normal",
 						on_complete = { auto_select_single },
+						file_ignore_patterns = {},
 					},
 					lsp_implementations = {
 						fname_width = 100,
 						include_declaration = false,
 						initial_mode = "normal",
 						on_complete = { auto_select_single },
+						file_ignore_patterns = {},
+					},
+					lsp_dynamic_workspace_symbols = {
+						file_ignore_patterns = {},
 					},
 				},
 				extensions = {
