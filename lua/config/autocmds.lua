@@ -71,6 +71,19 @@ autocmd("LspAttach", {
         vim.keymap.set("n", "<leader>gu", require("telescope.builtin").lsp_references, {})
         vim.keymap.set("n", "<leader>gi", require("telescope.builtin").lsp_implementations, {})
 
+        vim.keymap.set("n", "gsd", function()
+            require("telescope.builtin").lsp_definitions({ jump_type = "vsplit" })
+        end, {})
+        vim.keymap.set("n", "gsu", function()
+            require("telescope.builtin").lsp_references({ jump_type = "vsplit" })
+        end, {})
+        vim.keymap.set("n", "gsi", function()
+            require("telescope.builtin").lsp_implementations({ jump_type = "vsplit" })
+        end, {})
+
+        vim.keymap.set("n", "<leader>gci", require("telescope.builtin").lsp_incoming_calls, {})
+        vim.keymap.set("n", "<leader>gco", require("telescope.builtin").lsp_outgoing_calls, {})
+
         vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, {})
         vim.keymap.set("n", "<leader>r", vim.lsp.buf.rename, {})
         vim.keymap.set("i", "<C-h>", function()
