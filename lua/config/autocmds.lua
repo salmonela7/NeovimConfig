@@ -50,6 +50,16 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 local augroup = vim.api.nvim_create_augroup
 local SalmonelaGroup = augroup("Salmonela", {})
 
+-- Center the view after direct LSP jumps (single-result telescope jumps go through here)
+local lsp_show_document = vim.lsp.util.show_document
+vim.lsp.util.show_document = function(location, offset_encoding, opts)
+    local ok = lsp_show_document(location, offset_encoding, opts)
+    if ok and (not opts or opts.focus ~= false) then
+        vim.cmd("normal! zz")
+    end
+    return ok
+end
+
 vim.api.nvim_create_autocmd("LspAttach", {
     callback = function(args)
         local client = vim.lsp.get_client_by_id(args.data.client_id)
@@ -96,7 +106,7 @@ autocmd("LspAttach", {
             local keymap_with_termcodes_replaced = vim.api.nvim_replace_termcodes("<LeftMouse>", true, true, true)
             vim.api.nvim_feedkeys(keymap_with_termcodes_replaced, "a", true)
             vim.schedule(function()
-                require("telescope.builtin").lsp_definitions()
+                require("telescope.builtin").lsp_definitions(lsp_picker_opts())
             end)
         end, {})
     end,

@@ -38,6 +38,7 @@ return {
 				picker:clear_completion_callbacks()
 				if picker.manager.linked_states.size == 1 then
 					require("telescope.actions").select_default(picker.prompt_bufnr)
+					vim.cmd("normal! zz")
 				else
 					local keymap_with_termcodes_replaced =
 						vim.api.nvim_replace_termcodes("i", true, true, true)
@@ -76,30 +77,22 @@ return {
 					},
 				},
 				pickers = {
-					-- file_ignore_patterns = {} keeps the global ignore (meant for file
-					-- searching) from filtering out LSP results when editing inside .worktrees/
 					lsp_definitions = {
 						fname_width = 100,
 						initial_mode = "normal",
 						on_complete = { auto_select_single },
-						file_ignore_patterns = {},
 					},
 					lsp_references = {
 						fname_width = 100,
 						include_declaration = false,
 						initial_mode = "normal",
 						on_complete = { auto_select_single },
-						file_ignore_patterns = {},
 					},
 					lsp_implementations = {
 						fname_width = 100,
 						include_declaration = false,
 						initial_mode = "normal",
 						on_complete = { auto_select_single },
-						file_ignore_patterns = {},
-					},
-					lsp_dynamic_workspace_symbols = {
-						file_ignore_patterns = {},
 					},
 				},
 				extensions = {
