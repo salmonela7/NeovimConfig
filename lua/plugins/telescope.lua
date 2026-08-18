@@ -48,7 +48,6 @@ return {
 
 			telescope.setup({
 				defaults = {
-					file_ignore_patterns = { "%.worktrees/" },
 					layout_config = { width = 0.95 },
 					mappings = {
 						i = {
