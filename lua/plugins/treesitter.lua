@@ -24,7 +24,13 @@ return {
 				group = vim.api.nvim_create_augroup("treesitter-features", {}),
 				callback = function(ev)
 					if pcall(vim.treesitter.start, ev.buf) then
-						vim.bo[ev.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+						-- Only use treesitter indentation when the language has an
+						-- indent query; otherwise keep the builtin indent script
+						-- (e.g. c_sharp has no indents.scm in this fork).
+						local lang = vim.treesitter.language.get_lang(ev.match)
+						if lang and vim.treesitter.query.get(lang, "indents") then
+							vim.bo[ev.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+						end
 					end
 				end,
 			})
