@@ -106,7 +106,7 @@ autocmd("LspAttach", {
             local keymap_with_termcodes_replaced = vim.api.nvim_replace_termcodes("<LeftMouse>", true, true, true)
             vim.api.nvim_feedkeys(keymap_with_termcodes_replaced, "a", true)
             vim.schedule(function()
-                require("telescope.builtin").lsp_definitions(lsp_picker_opts())
+                require("telescope.builtin").lsp_definitions()
             end)
         end, {})
     end,
