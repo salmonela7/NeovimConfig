@@ -70,6 +70,14 @@ return {
 				end
 			end
 
+			vim.api.nvim_create_autocmd("LspAttach", {
+				callback = function(args)
+					if vim.api.nvim_buf_get_name(args.buf):match("^fugitive://") then
+						vim.diagnostic.enable(false, { bufnr = args.buf })
+					end
+				end,
+			})
+
 			vim.api.nvim_create_autocmd("FileType", {
 				pattern = "fugitive",
 				callback = function(args)
