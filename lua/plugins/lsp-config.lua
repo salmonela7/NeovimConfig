@@ -1,53 +1,24 @@
-local group = vim.api.nvim_create_augroup("lspconfig.roslyn_ls", { clear = true })
-
----@param client vim.lsp.Client
-local function refresh_diagnostics(client)
-    for buf, _ in pairs(vim.lsp.get_client_by_id(client.id).attached_buffers) do
-        if vim.api.nvim_buf_is_loaded(buf) then
-            client:request(
-                vim.lsp.protocol.Methods.textDocument_diagnostic,
-                { textDocument = vim.lsp.util.make_text_document_params(buf) },
-                nil,
-                buf
-            )
-        end
-    end
-end
-
-local function roslyn_handlers()
-    return {
-        ["workspace/projectInitializationComplete"] = function(_, _, ctx)
-            vim.notify("Roslyn project initialization complete", vim.log.levels.INFO, { title = "roslyn_ls" })
-            local client = assert(vim.lsp.get_client_by_id(ctx.client_id))
-            refresh_diagnostics(client)
-            return vim.NIL
-        end,
-        ["workspace/_roslyn_projectNeedsRestore"] = function(_, result, ctx)
-            local client = assert(vim.lsp.get_client_by_id(ctx.client_id))
-
-            ---@diagnostic disable-next-line: param-type-mismatch
-            client:request("workspace/_roslyn_restore", result, function(err, response)
-                if err then
-                    vim.notify(err.message, vim.log.levels.ERROR, { title = "roslyn_ls" })
+-- Roslyn computes document diagnostics on request, and Neovim only re-pulls
+-- a buffer when that buffer itself changes. Editing file A never refreshes
+-- file B, so cross-file errors stay stale. After an edit settles, re-pull
+-- every other attached C# buffer.
+local roslyn_cross_refresh_timer = assert(vim.uv.new_timer())
+local function roslyn_refresh_other_buffers(edited_buf)
+    roslyn_cross_refresh_timer:start(
+        2000,
+        0,
+        vim.schedule_wrap(function()
+            local client = vim.lsp.get_clients({ name = "roslyn", bufnr = edited_buf })[1]
+            if not client then
+                return
+            end
+            for bufnr in pairs(client.attached_buffers) do
+                if bufnr ~= edited_buf and vim.api.nvim_buf_is_loaded(bufnr) then
+                    vim.lsp.diagnostic._refresh(bufnr, client.id)
                 end
-                if response then
-                    for _, v in ipairs(response) do
-                        vim.notify(v.message, vim.log.levels.INFO, { title = "roslyn_ls" })
-                    end
-                end
-            end)
-
-            return vim.NIL
-        end,
-        ["razor/provideDynamicFileInfo"] = function(_, _, _)
-            vim.notify(
-                "Razor is not supported.\nPlease use https://github.com/tris203/rzls.nvim",
-                vim.log.levels.WARN,
-                { title = "roslyn_ls" }
-            )
-            return vim.NIL
-        end,
-    }
+            end
+        end)
+    )
 end
 
 return {
@@ -83,7 +54,6 @@ return {
         ft = "cs",
         opts = {
             filewatching = "roslyn",
-            handlers = roslyn_handlers(),
         },
     },
     {
@@ -119,20 +89,23 @@ return {
             })
 
             vim.lsp.config("roslyn", {
-                on_attach = function(client, bufnr)
-                    if vim.api.nvim_get_autocmds({ buffer = bufnr, group = group })[1] then
-                        return
-                    end
-
-                    vim.api.nvim_create_autocmd({ "BufWritePost", "InsertLeave" }, {
-                        group = group,
-                        buffer = bufnr,
-                        callback = function()
-                            refresh_diagnostics(client)
-                        end,
-                        desc = "roslyn_ls: refresh diagnostics",
-                    })
-                end,
+                handlers = {
+                    -- Neovim's default on_refresh only runs a workspace pull for
+                    -- servers that support it, and workspace results are ignored
+                    -- for open buffers. Re-pull document diagnostics too, or open
+                    -- buffers keep stale diagnostics until the next edit.
+                    ["workspace/diagnostic/refresh"] = function(err, result, ctx)
+                        local client = vim.lsp.get_client_by_id(ctx.client_id)
+                        if client then
+                            for bufnr in pairs(client.attached_buffers) do
+                                if vim.api.nvim_buf_is_loaded(bufnr) then
+                                    vim.lsp.diagnostic._refresh(bufnr, ctx.client_id)
+                                end
+                            end
+                        end
+                        return vim.lsp.diagnostic.on_refresh(err, result, ctx)
+                    end,
+                },
                 capabilities = {
                     textDocument = {
                         diagnostic = {
@@ -222,6 +195,16 @@ return {
 
                     if client.name == "intelephense" then
                         client.server_capabilities.implementationProvider = false
+                    end
+
+                    if client.name == "roslyn" then
+                        vim.api.nvim_create_autocmd({ "TextChanged", "InsertLeave" }, {
+                            group = vim.api.nvim_create_augroup("roslyn_cross_refresh_" .. ev.buf, { clear = true }),
+                            buffer = ev.buf,
+                            callback = function()
+                                roslyn_refresh_other_buffers(ev.buf)
+                            end,
+                        })
                     end
 
                     if client.name == "phpactor" then
