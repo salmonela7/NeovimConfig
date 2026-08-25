@@ -70,6 +70,14 @@ return {
 				end
 			end
 
+			vim.api.nvim_create_autocmd({ "BufWritePost", "FocusGained" }, {
+				callback = function()
+					if has_fugitive_buffer() and vim.fn.exists("*FugitiveDidChange") == 1 then
+						vim.fn.FugitiveDidChange()
+					end
+				end,
+			})
+
 			vim.api.nvim_create_autocmd("LspAttach", {
 				callback = function(args)
 					if vim.api.nvim_buf_get_name(args.buf):match("^fugitive://") then
