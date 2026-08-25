@@ -55,7 +55,7 @@ vim.diagnostic.config({
     virtual_text = true,
     underline = true,
     severity_sort = true,
-    update_in_insert = false,
+    update_in_insert = true,
 })
 
 vim.cmd('set shada="NONE"')
