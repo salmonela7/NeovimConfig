@@ -13,7 +13,8 @@ return {
         },
     },
     keys = {
-        { "<leader>cc", "<cmd>ClaudeCode<cr>",            mode = { "n", "i" },         desc = "Toggle Claude" },
+        -- { "<leader>cc", "<cmd>ClaudeCode<cr>",            mode = { "n", "i" },         desc = "Toggle Claude" },
+        { "<leader>cc", "<cmd>ClaudeCode<cr>",            mode = { "n" },         desc = "Toggle Claude" },
         { "<leader>cc", "<cmd>ClaudeCodeSend<cr>",        mode = "v",                  desc = "Send to Claude" },
         { "<leader>cm", "<cmd>ClaudeCodeSelectModel<cr>", desc = "Select Claude model" },
         { "<leader>cb", "<cmd>ClaudeCodeAdd %<cr>",       desc = "Add current buffer" },
