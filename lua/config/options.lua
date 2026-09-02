@@ -16,6 +16,8 @@ vim.opt.scrolloff = 10
 vim.opt.incsearch = true
 vim.opt.splitright = true
 vim.o.autoread = true
+vim.opt.swapfile = false
+vim.opt.undofile = true
 
 if utils.IS_WINDOWS then
     vim.opt.shell = "powershell /nologo"
