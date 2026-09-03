@@ -18,6 +18,7 @@ vim.opt.splitright = true
 vim.o.autoread = true
 vim.opt.swapfile = false
 vim.opt.undofile = true
+vim.opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,localoptions"
 
 if utils.IS_WINDOWS then
     vim.opt.shell = "powershell /nologo"
